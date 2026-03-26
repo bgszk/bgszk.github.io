@@ -4,59 +4,64 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>bgszk</title>
-
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<header>
-  <h1>bgszk</h1>
+<header class="nav">
+  <div class="logo">bgszk</div>
   <nav>
     <a href="index.html">Home</a>
+    <a href="projects.html">Projetos</a>
     <a href="game.html">Game</a>
+    <a href="terminal.html">Terminal</a>
     <a href="https://github.com/bgszk" target="_blank">GitHub</a>
   </nav>
 </header>
 
 <main class="hero">
-
-  <div class="card">
+  <div class="hero-content">
 
     <div class="avatar">
-      <img src="https://i.pinimg.com/1200x/7e/27/65/7e2765aed9dd7817f7c7486f8d772abe.jpg">
+      <img src="https://i.pinimg.com/1200x/7e/27/65/7e2765aed9dd7817f7c7486f8d772abe.jpg" alt="lain">
     </div>
 
-    <h2>Present Day, Present Time.</h2>
+    <h1>Present Day, Present Time.</h1>
 
-    <p>
-S.I.
-Baixo nível.
-Engenharia reversa.
-Fuçando sistemas.
+    <p class="desc">
+      S.I.<br>
+      Low level.<br>
+      Reverse engineering.<br>
+      System exploration.
     </p>
 
     <button id="musicBtn">Play Music</button>
 
   </div>
-
 </main>
 
 <footer>
-  <p>And you don't seem to understand</p>
+  <p>
+S.I.<br>
+Baixo nível (programação próxima do hardware, com controle direto de memória e sistema).<br>
+Engenharia reversa.<br>
+Fuçando sistemas.<br><br>
+C / C++ / C# / Rust / Ruby / Shell / Assembly
+</p>
 </footer>
 
-<audio id="music" loop>
+<audio id="bgMusic" loop>
   <source src="lain.mp3" type="audio/mpeg">
 </audio>
 
 <script>
-const btn = document.getElementById("musicBtn");
-const music = document.getElementById("music");
+const btn = document.getElementById('musicBtn');
+const audio = document.getElementById('bgMusic');
 
-btn.onclick = () => {
-  music.volume = 0.5;
-  music.play();
-};
+btn.addEventListener('click', () => {
+  audio.volume = 0.5;
+  audio.play();
+});
 </script>
 
 </body>
