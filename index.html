@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>bgszk</title>
+
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <h1>bgszk</h1>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="game.html">Game</a>
+    <a href="https://github.com/bgszk" target="_blank">GitHub</a>
+  </nav>
+</header>
+
+<main class="hero">
+
+  <div class="card">
+
+    <div class="avatar">
+      <img src="https://i.pinimg.com/1200x/7e/27/65/7e2765aed9dd7817f7c7486f8d772abe.jpg">
+    </div>
+
+    <h2>Present Day, Present Time.</h2>
+
+    <p>
+S.I.
+Baixo nível.
+Engenharia reversa.
+Fuçando sistemas.
+    </p>
+
+    <button id="musicBtn">Play Music</button>
+
+  </div>
+
+</main>
+
+<footer>
+  <p>And you don't seem to understand</p>
+</footer>
+
+<audio id="music" loop>
+  <source src="lain.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+const btn = document.getElementById("musicBtn");
+const music = document.getElementById("music");
+
+btn.onclick = () => {
+  music.volume = 0.5;
+  music.play();
+};
+</script>
+
+</body>
+</html>
