@@ -6,6 +6,11 @@
   font-family: 'JetBrains Mono', monospace;
 }
 
+/* GARANTE ALTURA TOTAL */
+html, body{
+  height:100%;
+}
+
 /* FUNDO */
 body{
   min-height:100vh;
@@ -19,7 +24,7 @@ body{
     #050507;
 }
 
-/* HEADER */
+/* NAVBAR */
 .nav{
   display:flex;
   justify-content:space-between;
@@ -37,7 +42,7 @@ body{
   color:#cbb6ff;
 }
 
-/* NAV */
+/* LINKS */
 nav a{
   margin-left:30px;
   text-decoration:none;
@@ -65,7 +70,13 @@ nav a:hover::after{
   width:100%;
 }
 
-/* HERO */
+/* ÁREA PRINCIPAL */
+main{
+  flex:1;
+  display:flex;
+}
+
+/* HERO CENTRAL */
 .hero{
   flex:1;
   display:flex;
@@ -74,7 +85,7 @@ nav a:hover::after{
   padding:40px 20px;
 }
 
-/* CARD */
+/* CARD CENTRAL */
 .hero-content{
   text-align:center;
   padding:60px 50px;
@@ -99,7 +110,6 @@ nav a:hover::after{
 
   border-radius:50%;
   overflow:hidden;
-
   position:relative;
 }
 
@@ -122,14 +132,14 @@ nav a:hover::after{
   border-radius:50%;
 }
 
-/* TITULO */
+/* TÍTULO */
 h1{
   font-size:1.8rem;
   margin-bottom:15px;
   letter-spacing:1px;
 }
 
-/* TEXTO */
+/* DESCRIÇÃO */
 .desc{
   line-height:1.9;
   color:#cfc9ff;
@@ -156,7 +166,7 @@ h1{
   box-shadow:0 0 25px rgba(140,100,255,.6);
 }
 
-/* FOOTER */
+/* RODAPÉ */
 footer{
   text-align:center;
   padding:20px;
@@ -164,7 +174,7 @@ footer{
   color:#777;
 }
 
-/* GAME PAGE */
+/* PÁGINA DE JOGO */
 .game-container{
   flex:1;
   display:flex;
@@ -173,6 +183,7 @@ footer{
   justify-content:center;
 }
 
+/* IFRAME (JOGO) */
 iframe{
   width:90vw;
   height:75vh;
