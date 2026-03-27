@@ -6,11 +6,12 @@
 <title>Jordan</title>
 
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap" rel="stylesheet">
-
 <link rel="stylesheet" href="style.css">
 
 </head>
 <body>
+
+<canvas id="bgCanvas"></canvas>
 
 <header class="nav">
   <div class="logo">Jordan</div>
@@ -30,24 +31,24 @@
 
     <h1>Present Day, Present Time.</h1>
     
-<p class="desc">
-S.I.<br>
-Baixo nível (programação próxima do hardware).<br>
-Engenharia reversa.<br>
-Exploração de sistemas.
-</p>
+    <p class="desc">
+      S.I.<br>
+      Baixo nível (próximo do hardware).<br>
+      Engenharia reversa.<br>
+      Exploração de sistemas.
+    </p>
 
-<div class="langs">
-  <span>C</span>
-  <span>C++</span>
-  <span>C#</span>
-  <span>Rust</span>
-  <span>Ruby</span>
-  <span>Shell</span>
-  <span>Assembly</span>
-</div>
+    <div class="langs">
+      <span>C</span>
+      <span>C++</span>
+      <span>C#</span>
+      <span>Rust</span>
+      <span>Ruby</span>
+      <span>Shell</span>
+      <span>Assembly</span>
+    </div>
     
-    <button id="musicBtn">Iniciar</button>
+    <button id="musicBtn">Iniciar Música</button>
 
   </div>
 </main>
@@ -60,15 +61,7 @@ Exploração de sistemas.
   <source src="lain.mp3" type="audio/mpeg">
 </audio>
 
-<script>
-const btn = document.getElementById('musicBtn');
-const audio = document.getElementById('bgMusic');
-
-btn.addEventListener('click', () => {
-  audio.volume = 0.5;
-  audio.play();
-});
-</script>
+<script src="script.js"></script>
 
 </body>
 </html>
