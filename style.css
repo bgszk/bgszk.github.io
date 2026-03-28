@@ -10,7 +10,7 @@
 html, body{
   height:100%;
   overflow-x:hidden;
-  background:none; /* nada de background estático */
+  background:#050507; /* fundo escuro base */
   color:#eae6ff;
 }
 
@@ -75,7 +75,7 @@ main.hero{
   text-align:center;
   padding:60px 50px;
   border-radius:24px;
-  background:rgba(0,0,0,0.3); /* semi transparente pra ver o fundo animado */
+  background:rgba(0,0,0,0.3); /* semi transparente para ver o fundo */
   backdrop-filter: blur(10px);
   border:1px solid rgba(159,139,255,0.2);
   box-shadow:0 0 120px rgba(159,139,255,0.2), inset 0 0 40px rgba(159,139,255,0.05);
