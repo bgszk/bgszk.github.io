@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Jordan</title>
+  <title>Game - Jordan</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
-<body class="page-home">
+<body class="page-game">
   <canvas id="bg-canvas" aria-hidden="true"></canvas>
 
   <div class="site-shell">
@@ -17,43 +17,27 @@
       <a class="logo" href="index.html">Jordan</a>
 
       <nav class="menu">
-        <a href="index.html" class="active">Home</a>
-        <a href="game.html">Game</a>
+        <a href="index.html">Home</a>
+        <a href="game.html" class="active">Game</a>
         <a href="codes.html">Skills</a>
         <a href="https://github.com/bgszk" target="_blank" rel="noopener noreferrer">GitHub</a>
       </nav>
     </header>
 
-    <main class="hero">
-      <section class="panel hero-panel">
-        <div class="avatar-wrap">
-          <img
-            class="avatar"
-            src="https://i.pinimg.com/1200x/7e/27/65/7e2765aed9dd7817f7c7486f8d772abe.jpg"
-            alt="Avatar"
-          >
+    <main class="page-main">
+      <section class="panel game-panel">
+        <div class="section-head">
+          <h1>Soniczinho</h1>
         </div>
 
-        <h1>Present Day, Present Time.</h1>
-
-        <p class="desc">
-          S.I.<br>
-          Baixo nível.<br>
-          Engenharia reversa.<br>
-          Exploração de sistemas.
-        </p>
-
-        <div class="langs">
-          <span>C</span>
-          <span>C++</span>
-          <span>C#</span>
-          <span>Rust</span>
-          <span>Ruby</span>
-          <span>Shell</span>
-          <span>Assembly</span>
+        <div class="game-frame-wrap">
+          <iframe
+            src="https://www.retrogames.cc/embed/43844-sonic-the-hedgehog-genesis.html"
+            title="Soniczinho"
+            allowfullscreen
+            loading="lazy">
+          </iframe>
         </div>
-
-        <button id="musicBtn" class="primary-btn" type="button">Iniciar música</button>
       </section>
     </main>
 
@@ -61,10 +45,6 @@
       <p>And you don&apos;t seem to understand</p>
     </footer>
   </div>
-
-  <audio id="bgMusic" loop>
-    <source src="lain.mp3" type="audio/mpeg">
-  </audio>
 
   <script src="script.js"></script>
 </body>
