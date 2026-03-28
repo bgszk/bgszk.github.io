@@ -1,46 +1,60 @@
-// BOTÃO MÚSICA
-const btn = document.getElementById('musicBtn');
-const audio = document.getElementById('bgMusic');
-btn.addEventListener('click', () => {
-  audio.volume = 0.5;
-  audio.play();
-});
+// script.js
+// Fundo animado cyberpunk/neon
+const canvas = document.getElementById('background');
+const ctx = canvas.getContext('2d');
 
-// FUNDO ANIMADO (Three.js)
-const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
-const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('background'), alpha: true });
-renderer.setSize(window.innerWidth, window.innerHeight);
-camera.position.z = 1;
-
-// PARTICULAS
-let particles = new THREE.BufferGeometry();
-let count = 5000;
-let positions = new Float32Array(count * 3);
-for(let i=0; i<count*3; i++){
-  positions[i] = (Math.random()-0.5)*10;
+let w, h;
+function resize() {
+  w = canvas.width = window.innerWidth;
+  h = canvas.height = window.innerHeight;
 }
-particles.setAttribute('position', new THREE.BufferAttribute(positions,3));
+window.addEventListener('resize', resize);
+resize();
 
-let material = new THREE.PointsMaterial({
-  size: 0.02,
-  color: 0x9f8bff,
-  transparent: true,
-  opacity: 0.7
-});
-let points = new THREE.Points(particles, material);
-scene.add(points);
+// Partículas neon
+const particles = [];
+const particleCount = Math.floor(w * h / 8000);
 
+for (let i = 0; i < particleCount; i++) {
+  particles.push({
+    x: Math.random() * w,
+    y: Math.random() * h,
+    size: Math.random() * 2 + 1,
+    speedX: (Math.random() - 0.5) * 0.5,
+    speedY: (Math.random() - 0.5) * 0.5,
+    color: `hsl(${Math.random() * 360}, 70%, 60%)`,
+  });
+}
+
+// Animação
 function animate() {
+  ctx.clearRect(0, 0, w, h);
+
+  // Fundo com gradiente radial sutil
+  const gradient = ctx.createRadialGradient(w/2, h/2, 0, w/2, h/2, Math.max(w,h)/1.5);
+  gradient.addColorStop(0, '#1a1333');
+  gradient.addColorStop(1, '#050507');
+  ctx.fillStyle = gradient;
+  ctx.fillRect(0, 0, w, h);
+
+  // Partículas
+  particles.forEach(p => {
+    p.x += p.speedX;
+    p.y += p.speedY;
+
+    if (p.x > w) p.x = 0;
+    if (p.x < 0) p.x = w;
+    if (p.y > h) p.y = 0;
+    if (p.y < 0) p.y = h;
+
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+    ctx.fillStyle = p.color;
+    ctx.shadowColor = p.color;
+    ctx.shadowBlur = 8;
+    ctx.fill();
+  });
+
   requestAnimationFrame(animate);
-  points.rotation.x += 0.0005;
-  points.rotation.y += 0.0005;
-  renderer.render(scene,camera);
 }
 animate();
-
-window.addEventListener('resize', () => {
-  camera.aspect = window.innerWidth/window.innerHeight;
-  camera.updateProjectionMatrix();
-  renderer.setSize(window.innerWidth, window.innerHeight);
-});
