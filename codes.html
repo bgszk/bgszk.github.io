@@ -4,10 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Skills / Codes - Jordan</title>
+
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
+<script src="script.js"></script>
 </head>
 <body>
+
 <canvas id="background"></canvas>
 
 <header class="nav">
@@ -21,94 +24,138 @@
 </header>
 
 <main class="codes-container">
-  <h2>Minhas Skills</h2>
-  <p class="desc">Domínio completo em baixo nível, engenharia reversa e exploração de sistemas.</p>
+  <h2>Minhas Skills / Exemplos</h2>
+  <p class="desc">Aqui estão alguns trechos mostrando como eu manjo do NGC e programação de baixo nível.</p>
 
   <div class="code-cards">
-    <!-- C / C++ -->
-    <div class="code-card">
-      <h3>C / C++</h3>
-      <pre>
-// Manipulação de memória e ponteiros
-#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
 
-struct KernelHook {
-    void* target;
-    void (*callback)();
+    <div class="code-card">
+      <h3>C</h3>
+      <pre>
+#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+struct User {
+    char name[50];
+    int level;
 };
 
-void override(void* addr) {
-    struct KernelHook hook;
-    hook.target = addr;
-    hook.callback = [](){ printf("Kernel function overridden\n"); };
-    printf("Memory patched at %p\n", hook.target);
-}
-
 int main() {
-    void* fakeAddr = (void*)0xDEADBEEF;
-    override(fakeAddr);
+    struct User player;
+    strcpy(player.name, "Jordan");
+    player.level = 99;
+    printf("Jogador: %s, Level: %d\n", player.name, player.level);
     return 0;
 }
       </pre>
       <button class="copyBtn">Copiar</button>
     </div>
 
-    <!-- Rust -->
     <div class="code-card">
-      <h3>Rust</h3>
+      <h3>C++</h3>
       <pre>
-// Low-level safe systems
-fn main() {
-    let mut buffer: [u8; 1024] = [0; 1024];
-    unsafe {
-        let ptr = buffer.as_mut_ptr();
-        for i in 0..buffer.len() {
-            *ptr.add(i) = (i % 256) as u8;
-        }
-    }
-    println!("Buffer initialized and manipulated");
+#include &lt;iostream&gt;
+#include &lt;vector&gt;
+
+class Enemy {
+    int health;
+public:
+    Enemy(int h) : health(h) {}
+    void takeDamage(int d) { health -= d; }
+    int getHealth() { return health; }
+};
+
+int main() {
+    std::vector&lt;Enemy&gt; enemies = {Enemy(100), Enemy(150)};
+    enemies[0].takeDamage(40);
+    std::cout &lt;&lt; "Inimigo 0 vida: " &lt;&lt; enemies[0].getHealth() &lt;&lt; std::endl;
 }
       </pre>
       <button class="copyBtn">Copiar</button>
     </div>
 
-    <!-- C# -->
     <div class="code-card">
       <h3>C#</h3>
       <pre>
-// Reflection e baixo nível
 using System;
-using System.Reflection;
 
 class Program {
     static void Main() {
-        Type t = typeof(string);
-        MethodInfo m = t.GetMethod("Contains", new[]{typeof(string)});
-        Console.WriteLine(m.Invoke("Hello World","World"));
+        int[] values = {10, 20, 30};
+        foreach(var v in values){
+            Console.WriteLine("Valor: " + v);
+        }
     }
 }
       </pre>
       <button class="copyBtn">Copiar</button>
     </div>
 
-    <!-- Shell / Ruby / Assembly -->
     <div class="code-card">
-      <h3>Shell / Ruby / Assembly</h3>
+      <h3>Rust</h3>
       <pre>
-# Shell: lista processos
-ps aux | grep bash
+struct Player {
+    name: String,
+    level: u32,
+}
 
-# Ruby: manipula strings
-puts "Exploration".reverse
-
-; Assembly x86
-mov eax, 1
-mov ebx, 0
-int 0x80
+fn main() {
+    let p = Player { name: "Jordan".to_string(), level: 99 };
+    println!("{} está no level {}", p.name, p.level);
+}
       </pre>
       <button class="copyBtn">Copiar</button>
     </div>
+
+    <div class="code-card">
+      <h3>Ruby</h3>
+      <pre>
+class Enemy
+  attr_accessor :health
+  def initialize(h)
+    @health = h
+  end
+end
+
+e = Enemy.new(100)
+e.health -= 40
+puts "Inimigo vida: #{e.health}"
+      </pre>
+      <button class="copyBtn">Copiar</button>
+    </div>
+
+    <div class="code-card">
+      <h3>Shell</h3>
+      <pre>
+#!/bin/bash
+for file in *.txt; do
+  echo "Arquivo encontrado: $file"
+done
+      </pre>
+      <button class="copyBtn">Copiar</button>
+    </div>
+
+    <div class="code-card">
+      <h3>Assembly</h3>
+      <pre>
+section .data
+    msg db 'Hello NGC!',0
+
+section .text
+    global _start
+
+_start:
+    mov edx,10
+    mov ecx,msg
+    mov ebx,1
+    mov eax,4
+    int 0x80
+    mov eax,1
+    int 0x80
+      </pre>
+      <button class="copyBtn">Copiar</button>
+    </div>
+
   </div>
 </main>
 
@@ -116,15 +163,14 @@ int 0x80
   <p>And you don't seem to understand</p>
 </footer>
 
-<script src="script.js"></script>
 <script>
-// Copiar código
-document.querySelectorAll('.copyBtn').forEach(btn=>{
-  btn.addEventListener('click',e=>{
+// COPIAR CÓDIGO
+document.querySelectorAll('.copyBtn').forEach(btn => {
+  btn.addEventListener('click', e => {
     const pre = e.target.previousElementSibling;
     navigator.clipboard.writeText(pre.innerText);
-    e.target.innerText='Copiado!';
-    setTimeout(()=>{e.target.innerText='Copiar';},1500);
+    e.target.innerText = 'Copiado!';
+    setTimeout(()=>{ e.target.innerText = 'Copiar'; }, 1500);
   });
 });
 </script>
