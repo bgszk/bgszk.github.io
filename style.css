@@ -160,12 +160,12 @@ footer {
   justify-content: center;
 }
 
-iframe {
-  width: 90vw;
-  height: 75vh;
-  border: none;
-  border-radius: 12px;
-  box-shadow: 0 0 60px rgba(120,90,255,0.2);
+iframe{
+  width:90vw;
+  height:75vh;
+  border:none;
+  border-radius:12px;
+  box-shadow:0 0 60px rgba(159,139,255,0.7);
 }
 
 /* LINGUAGENS / INDEX */
