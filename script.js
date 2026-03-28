@@ -1,4 +1,4 @@
-// BOTÃO DE MÚSICA
+// BOTÃO MÚSICA
 const btn = document.getElementById('musicBtn');
 const audio = document.getElementById('bgMusic');
 btn.addEventListener('click', () => {
@@ -6,50 +6,41 @@ btn.addEventListener('click', () => {
   audio.play();
 });
 
-// FUNDO ANIMADO FUNCIONAL
-const canvas = document.getElementById('bgCanvas');
-const ctx = canvas.getContext('2d');
-
-function resizeCanvas() {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-}
-resizeCanvas();
-window.addEventListener('resize', resizeCanvas);
+// FUNDO ANIMADO PROFESSIONAL (Three.js)
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
+const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('background'), alpha: true });
+renderer.setSize(window.innerWidth, window.innerHeight);
+camera.position.z = 1;
 
 // PARTICULAS
-let particles = [];
-for(let i=0;i<120;i++){
-  particles.push({
-    x:Math.random()*canvas.width,
-    y:Math.random()*canvas.height,
-    r:Math.random()*2+1,
-    dx:(Math.random()-0.5)*0.7,
-    dy:(Math.random()-0.5)*0.7
-  });
+let particles = new THREE.BufferGeometry();
+let count = 5000;
+let positions = new Float32Array(count * 3);
+for(let i=0; i<count*3; i++){
+  positions[i] = (Math.random()-0.5)*10;
 }
+particles.setAttribute('position', new THREE.BufferAttribute(positions,3));
 
-function animate(){
-  // FUNDO ESCURO REAL
-  ctx.fillStyle = "#050507";
-  ctx.fillRect(0,0,canvas.width,canvas.height);
+let material = new THREE.PointsMaterial({
+  size: 0.02,
+  color: 0x9f8bff,
+  transparent: true,
+  opacity: 0.7
+});
+let points = new THREE.Points(particles, material);
+scene.add(points);
 
-  // PARTICULAS
-  particles.forEach(p=>{
-    ctx.beginPath();
-    ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-    ctx.fillStyle = `rgba(159,139,255,0.7)`;
-    ctx.fill();
-
-    p.x += p.dx;
-    p.y += p.dy;
-
-    if(p.x>canvas.width)p.x=0;
-    if(p.x<0)p.x=canvas.width;
-    if(p.y>canvas.height)p.y=0;
-    if(p.y<0)p.y=canvas.height;
-  });
-
+function animate() {
   requestAnimationFrame(animate);
+  points.rotation.x += 0.0005;
+  points.rotation.y += 0.0005;
+  renderer.render(scene,camera);
 }
 animate();
+
+window.addEventListener('resize', () => {
+  camera.aspect = window.innerWidth/window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+});
