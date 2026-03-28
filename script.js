@@ -6,7 +6,7 @@ btn.addEventListener('click', () => {
   audio.play();
 });
 
-// FUNDO ANIMADO VISÍVEL
+// FUNDO ANIMADO REAL
 const canvas = document.getElementById('bgCanvas');
 const ctx = canvas.getContext('2d');
 canvas.width = window.innerWidth;
@@ -24,7 +24,10 @@ for(let i=0;i<120;i++){
 }
 
 function animate(){
-  ctx.clearRect(0,0,canvas.width,canvas.height); // limpa fundo
+  // fundo escuro
+  ctx.fillStyle = "#050507";
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+
   particles.forEach(p=>{
     ctx.beginPath();
     ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
@@ -37,11 +40,12 @@ function animate(){
     if(p.y>canvas.height)p.y=0;
     if(p.y<0)p.y=canvas.height;
   });
+
   requestAnimationFrame(animate);
 }
 animate();
 
-// REDIMENSIONA
+// REDIMENSIONA CANVAS
 window.addEventListener('resize',()=>{
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
