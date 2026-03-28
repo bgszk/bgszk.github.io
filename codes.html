@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Skills / Codes - Jordan</title>
+
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r152/three.min.js"></script>
+</head>
+<body>
+
+<canvas id="background"></canvas>
+
+<header class="nav">
+  <div class="logo">Jordan</div>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="game.html">Game</a>
+    <a href="codes.html">Skills</a>
+    <a href="https://github.com/bgszk" target="_blank">GitHub</a>
+  </nav>
+</header>
+
+<main class="codes-container">
+  <h2>Minhas Skills</h2>
+  <p class="desc">Domínio de baixo nível, engenharia reversa, exploração de sistemas e programação próxima do hardware.</p>
+
+  <div class="code-cards">
+
+    <div class="code-card">
+      <h3>C / C++</h3>
+      <pre>
+// Low-level memory control
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+struct KernelHook {
+    void* target;
+    void (*callback)();
+};
+
+void override(void* addr) {
+    struct KernelHook hook;
+    hook.target = addr;
+    hook.callback = []() { printf("Kernel function overridden\n"); };
+    // Simulated low-level memory patch
+    printf("Memory patched at %p\n", hook.target);
+}
+
+int main() {
+    void* fakeAddr = (void*)0xDEADBEEF;
+    override(fakeAddr);
+    return 0;
+}
+      </pre>
+      <button class="copyBtn">Copiar</button>
+    </div>
+
+    <div class="code-card">
+      <h3>Rust</h3>
+      <pre>
+// Systems programming, memory safety
+fn main() {
+    let mut buffer: [u8; 1024] = [0; 1024];
+    // Unsafe block simulating low-level access
+    unsafe {
+        let ptr = buffer.as_mut_ptr();
+        for i in 0..buffer.len() {
+            *ptr.add(i) = (i % 256) as u8;
+        }
+    }
+    println!("Buffer initialized and manipulated at low-level");
+}
+      </pre>
+      <button class="copyBtn">Copiar</button>
+    </div>
+
+    <div class="code-card">
+      <h3>Assembly</h3>
+      <pre>
+; Direct CPU manipulation
+section .text
+global _start
+
+_start:
+    mov rax, 1          ; syscall: write
+    mov rdi, 1          ; stdout
+    mov rsi, message
+    mov rdx, len
+    syscall
+    mov rax, 60         ; syscall: exit
+    xor rdi, rdi
+    syscall
+
+section .data
+message db "Hardware accessed directly!", 0xA
+len equ $ - message
+      </pre>
+      <button class="copyBtn">Copiar</button>
+    </div>
+
+    <div class="code-card">
+      <h3>Python / Shell</h3>
+      <pre>
+# Advanced system interaction
+import os
+import subprocess
+
+def scan_ports(host):
+    for port in range(1,1024):
+        result = subprocess.run(['nc','-zv',host,str(port)], capture_output=True)
+        if result.returncode == 0:
+            print(f"Port {port} is open")
+
+def list_processes():
+    for pid in os.listdir('/proc'):
+        if pid.isdigit():
+            with open(f'/proc/{pid}/cmdline','r') as f:
+                cmd = f.read()
+                if cmd:
+                    print(f"PID {pid}: {cmd}")
+
+scan_ports('127.0.0.1')
+list_processes()
+      </pre>
+      <button class="copyBtn">Copiar</button>
+    </div>
+
+  </div>
+</main>
+
+<footer>
+  <p>And you don't seem to understand</p>
+</footer>
+
+<script src="script.js"></script>
+<script>
+// COPIAR TEXTO
+document.querySelectorAll('.copyBtn').forEach(btn => {
+  btn.addEventListener('click', e => {
+    const pre = e.target.previousElementSibling;
+    navigator.clipboard.writeText(pre.innerText);
+    e.target.innerText = 'Copiado!';
+    setTimeout(()=>{ e.target.innerText = 'Copiar'; }, 1500);
+  });
+});
+</script>
+</body>
+</html>
