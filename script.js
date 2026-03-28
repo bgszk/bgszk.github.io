@@ -1,60 +1,120 @@
-// script.js
-// Fundo animado cyberpunk/neon
-const canvas = document.getElementById('background');
-const ctx = canvas.getContext('2d');
+const canvas = document.getElementById("bg-canvas");
 
-let w, h;
-function resize() {
-  w = canvas.width = window.innerWidth;
-  h = canvas.height = window.innerHeight;
-}
-window.addEventListener('resize', resize);
-resize();
+if (canvas) {
+  const ctx = canvas.getContext("2d");
 
-// Partículas neon
-const particles = [];
-const particleCount = Math.floor(w * h / 8000);
+  let width = 0;
+  let height = 0;
+  const particles = [];
+  const particleCount = 90;
 
-for (let i = 0; i < particleCount; i++) {
-  particles.push({
-    x: Math.random() * w,
-    y: Math.random() * h,
-    size: Math.random() * 2 + 1,
-    speedX: (Math.random() - 0.5) * 0.5,
-    speedY: (Math.random() - 0.5) * 0.5,
-    color: `hsl(${Math.random() * 360}, 70%, 60%)`,
+  function resizeCanvas() {
+    width = window.innerWidth;
+    height = window.innerHeight;
+    canvas.width = width * window.devicePixelRatio;
+    canvas.height = height * window.devicePixelRatio;
+    canvas.style.width = `${width}px`;
+    canvas.style.height = `${height}px`;
+    ctx.setTransform(window.devicePixelRatio, 0, 0, window.devicePixelRatio, 0, 0);
+  }
+
+  function createParticle() {
+    const palette = [
+      "rgba(159,139,255,0.9)",
+      "rgba(122,92,255,0.9)",
+      "rgba(98,185,255,0.85)",
+      "rgba(213,133,255,0.8)"
+    ];
+
+    return {
+      x: Math.random() * width,
+      y: Math.random() * height,
+      r: Math.random() * 1.8 + 0.6,
+      vx: (Math.random() - 0.5) * 0.18,
+      vy: (Math.random() - 0.5) * 0.18,
+      color: palette[Math.floor(Math.random() * palette.length)]
+    };
+  }
+
+  function initParticles() {
+    particles.length = 0;
+    for (let i = 0; i < particleCount; i += 1) {
+      particles.push(createParticle());
+    }
+  }
+
+  function drawBackground() {
+    const gradient = ctx.createRadialGradient(
+      width * 0.5,
+      height * 0.3,
+      0,
+      width * 0.5,
+      height * 0.5,
+      Math.max(width, height) * 0.85
+    );
+
+    gradient.addColorStop(0, "#17142b");
+    gradient.addColorStop(0.45, "#0c0c17");
+    gradient.addColorStop(1, "#050507");
+
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, width, height);
+  }
+
+  function animate() {
+    drawBackground();
+
+    for (const p of particles) {
+      p.x += p.vx;
+      p.y += p.vy;
+
+      if (p.x < -10) p.x = width + 10;
+      if (p.x > width + 10) p.x = -10;
+      if (p.y < -10) p.y = height + 10;
+      if (p.y > height + 10) p.y = -10;
+
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = p.color;
+      ctx.shadowBlur = 14;
+      ctx.shadowColor = p.color;
+      ctx.fill();
+    }
+
+    ctx.shadowBlur = 0;
+    requestAnimationFrame(animate);
+  }
+
+  resizeCanvas();
+  initParticles();
+  animate();
+
+  window.addEventListener("resize", () => {
+    resizeCanvas();
+    initParticles();
   });
 }
 
-// Animação
-function animate() {
-  ctx.clearRect(0, 0, w, h);
+const musicBtn = document.getElementById("musicBtn");
+const bgMusic = document.getElementById("bgMusic");
 
-  // Fundo com gradiente radial sutil
-  const gradient = ctx.createRadialGradient(w/2, h/2, 0, w/2, h/2, Math.max(w,h)/1.5);
-  gradient.addColorStop(0, '#1a1333');
-  gradient.addColorStop(1, '#050507');
-  ctx.fillStyle = gradient;
-  ctx.fillRect(0, 0, w, h);
-
-  // Partículas
-  particles.forEach(p => {
-    p.x += p.speedX;
-    p.y += p.speedY;
-
-    if (p.x > w) p.x = 0;
-    if (p.x < 0) p.x = w;
-    if (p.y > h) p.y = 0;
-    if (p.y < 0) p.y = h;
-
-    ctx.beginPath();
-    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-    ctx.fillStyle = p.color;
-    ctx.shadowColor = p.color;
-    ctx.shadowBlur = 8;
-    ctx.fill();
+if (musicBtn && bgMusic) {
+  musicBtn.addEventListener("click", () => {
+    bgMusic.volume = 0.45;
+    bgMusic.play();
   });
-
-  requestAnimationFrame(animate);
 }
-animate();
+
+document.querySelectorAll(".copyBtn").forEach((button) => {
+  button.addEventListener("click", () => {
+    const code = button.closest(".skill-card")?.querySelector("code");
+    if (!code) return;
+
+    navigator.clipboard.writeText(code.textContent || "");
+    const original = button.textContent;
+    button.textContent = "Copiado!";
+    setTimeout(() => {
+      button.textContent = original;
+    }, 1400);
+  });
+});
