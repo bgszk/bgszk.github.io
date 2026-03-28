@@ -4,13 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Skills / Codes - Jordan</title>
-
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r152/three.min.js"></script>
 </head>
 <body>
-
 <canvas id="background"></canvas>
 
 <header class="nav">
@@ -25,14 +22,14 @@
 
 <main class="codes-container">
   <h2>Minhas Skills</h2>
-  <p class="desc">Domínio de baixo nível, engenharia reversa, exploração de sistemas e programação próxima do hardware.</p>
+  <p class="desc">Domínio completo em baixo nível, engenharia reversa e exploração de sistemas.</p>
 
   <div class="code-cards">
-
+    <!-- C / C++ -->
     <div class="code-card">
       <h3>C / C++</h3>
       <pre>
-// Low-level memory control
+// Manipulação de memória e ponteiros
 #include &lt;stdio.h&gt;
 #include &lt;stdlib.h&gt;
 
@@ -44,8 +41,7 @@ struct KernelHook {
 void override(void* addr) {
     struct KernelHook hook;
     hook.target = addr;
-    hook.callback = []() { printf("Kernel function overridden\n"); };
-    // Simulated low-level memory patch
+    hook.callback = [](){ printf("Kernel function overridden\n"); };
     printf("Memory patched at %p\n", hook.target);
 }
 
@@ -58,76 +54,61 @@ int main() {
       <button class="copyBtn">Copiar</button>
     </div>
 
+    <!-- Rust -->
     <div class="code-card">
       <h3>Rust</h3>
       <pre>
-// Systems programming, memory safety
+// Low-level safe systems
 fn main() {
     let mut buffer: [u8; 1024] = [0; 1024];
-    // Unsafe block simulating low-level access
     unsafe {
         let ptr = buffer.as_mut_ptr();
         for i in 0..buffer.len() {
             *ptr.add(i) = (i % 256) as u8;
         }
     }
-    println!("Buffer initialized and manipulated at low-level");
+    println!("Buffer initialized and manipulated");
 }
       </pre>
       <button class="copyBtn">Copiar</button>
     </div>
 
+    <!-- C# -->
     <div class="code-card">
-      <h3>Assembly</h3>
+      <h3>C#</h3>
       <pre>
-; Direct CPU manipulation
-section .text
-global _start
+// Reflection e baixo nível
+using System;
+using System.Reflection;
 
-_start:
-    mov rax, 1          ; syscall: write
-    mov rdi, 1          ; stdout
-    mov rsi, message
-    mov rdx, len
-    syscall
-    mov rax, 60         ; syscall: exit
-    xor rdi, rdi
-    syscall
-
-section .data
-message db "Hardware accessed directly!", 0xA
-len equ $ - message
+class Program {
+    static void Main() {
+        Type t = typeof(string);
+        MethodInfo m = t.GetMethod("Contains", new[]{typeof(string)});
+        Console.WriteLine(m.Invoke("Hello World","World"));
+    }
+}
       </pre>
       <button class="copyBtn">Copiar</button>
     </div>
 
+    <!-- Shell / Ruby / Assembly -->
     <div class="code-card">
-      <h3>Python / Shell</h3>
+      <h3>Shell / Ruby / Assembly</h3>
       <pre>
-# Advanced system interaction
-import os
-import subprocess
+# Shell: lista processos
+ps aux | grep bash
 
-def scan_ports(host):
-    for port in range(1,1024):
-        result = subprocess.run(['nc','-zv',host,str(port)], capture_output=True)
-        if result.returncode == 0:
-            print(f"Port {port} is open")
+# Ruby: manipula strings
+puts "Exploration".reverse
 
-def list_processes():
-    for pid in os.listdir('/proc'):
-        if pid.isdigit():
-            with open(f'/proc/{pid}/cmdline','r') as f:
-                cmd = f.read()
-                if cmd:
-                    print(f"PID {pid}: {cmd}")
-
-scan_ports('127.0.0.1')
-list_processes()
+; Assembly x86
+mov eax, 1
+mov ebx, 0
+int 0x80
       </pre>
       <button class="copyBtn">Copiar</button>
     </div>
-
   </div>
 </main>
 
@@ -137,13 +118,13 @@ list_processes()
 
 <script src="script.js"></script>
 <script>
-// COPIAR TEXTO
-document.querySelectorAll('.copyBtn').forEach(btn => {
-  btn.addEventListener('click', e => {
+// Copiar código
+document.querySelectorAll('.copyBtn').forEach(btn=>{
+  btn.addEventListener('click',e=>{
     const pre = e.target.previousElementSibling;
     navigator.clipboard.writeText(pre.innerText);
-    e.target.innerText = 'Copiado!';
-    setTimeout(()=>{ e.target.innerText = 'Copiar'; }, 1500);
+    e.target.innerText='Copiado!';
+    setTimeout(()=>{e.target.innerText='Copiar';},1500);
   });
 });
 </script>
