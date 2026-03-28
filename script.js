@@ -6,29 +6,29 @@ btn.addEventListener('click', () => {
   audio.play();
 });
 
-// FUNDO ANIMADO REAL
+// FUNDO ANIMADO VISÍVEL
 const canvas = document.getElementById('bgCanvas');
 const ctx = canvas.getContext('2d');
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
 let particles = [];
-for(let i=0;i<100;i++){
+for(let i=0;i<120;i++){
   particles.push({
     x:Math.random()*canvas.width,
     y:Math.random()*canvas.height,
     r:Math.random()*2+1,
-    dx:(Math.random()-0.5)*0.5,
-    dy:(Math.random()-0.5)*0.5
+    dx:(Math.random()-0.5)*0.7,
+    dy:(Math.random()-0.5)*0.7
   });
 }
 
 function animate(){
-  ctx.clearRect(0,0,canvas.width,canvas.height);
+  ctx.clearRect(0,0,canvas.width,canvas.height); // limpa fundo
   particles.forEach(p=>{
     ctx.beginPath();
     ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-    ctx.fillStyle = `rgba(159,139,255,0.6)`;
+    ctx.fillStyle = `rgba(159,139,255,0.7)`;
     ctx.fill();
     p.x += p.dx;
     p.y += p.dy;
@@ -41,7 +41,7 @@ function animate(){
 }
 animate();
 
-// Ajusta canvas ao redimensionar
+// REDIMENSIONA
 window.addEventListener('resize',()=>{
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
