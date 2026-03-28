@@ -4,15 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Jordan</title>
-
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
-
-<!-- Three.js para fundo animado -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r152/three.min.js"></script>
 </head>
 <body>
-
 <canvas id="background"></canvas>
 
 <header class="nav">
@@ -27,16 +22,14 @@
 
 <main class="hero">
   <div class="hero-content">
-
     <div class="avatar">
-      <img src="https://i.pinimg.com/1200x/7e/27/65/7e2765aed9dd7817f7c7486f8d772abe.jpg" alt="Avatar">
+      <img src="https://i.pinimg.com/1200x/7e/27/65/7e2765aed9dd7817f7c7486f8d772abe.jpg" alt="Jordan">
     </div>
 
     <h1>Present Day, Present Time.</h1>
-    
     <p class="desc">
       S.I.<br>
-      Baixo nível (próximo do hardware).<br>
+      Baixo nível (programação próxima do hardware).<br>
       Engenharia reversa.<br>
       Exploração de sistemas.
     </p>
@@ -50,9 +43,8 @@
       <span>Shell</span>
       <span>Assembly</span>
     </div>
-    
-    <button id="musicBtn">Iniciar Música</button>
 
+    <button id="musicBtn">Iniciar Música</button>
   </div>
 </main>
 
@@ -65,5 +57,13 @@
 </audio>
 
 <script src="script.js"></script>
+<script>
+const btn = document.getElementById('musicBtn');
+const audio = document.getElementById('bgMusic');
+btn.addEventListener('click', () => {
+  audio.volume = 0.5;
+  audio.play();
+});
+</script>
 </body>
 </html>
