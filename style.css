@@ -1,141 +1,43 @@
-/* RESET */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'JetBrains Mono', monospace;
-}
-
-html, body {
-  height: 100%;
-  overflow-x: hidden;
-  background: #050507; /* fundo escuro */
-  color: #eae6ff;
-}
-
-/* CANVAS fundo cover */
-#background {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -1;
-}
-
-/* NAV */
-.nav {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 25px 60px;
-  backdrop-filter: blur(10px);
-}
-nav a {
-  margin-left: 30px;
-  text-decoration: none;
-  color: #aaa;
-  transition: .3s;
-}
-nav a:hover {
-  color: #fff;
-}
-
-/* HERO */
+/* HERO CENTRAL */
 main.hero {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 60px 20px;
+  min-height: calc(100vh - 120px); /* altura total menos header + footer */
+  padding: 40px 20px;
   z-index: 1;
 }
+
+/* CARD CENTRAL */
 .hero-content {
   text-align: center;
-  background: rgba(0,0,0,0.4);
-  padding: 50px;
+  padding: 60px 50px;
   border-radius: 24px;
-  backdrop-filter: blur(10px);
+  background: rgba(0,0,0,0.4);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(159,139,255,0.6);
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* garante centralização horizontal do avatar */
 }
 
 /* AVATAR */
 .avatar {
   width: 200px;
   height: 200px;
-  margin: auto 0 30px;
+  margin-bottom: 25px;
   border-radius: 50%;
   border: 4px solid #9f8bff;
   overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center; /* garante centralização da imagem dentro do círculo */
 }
+
 .avatar img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-}
-
-/* LANGS */
-.langs {
-  margin-top: 20px;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-.langs span {
-  padding: 6px 12px;
-  margin: 4px;
-  background: rgba(255,255,255,0.1);
-  border-radius: 6px;
-  transition: .3s;
-}
-.langs span:hover {
-  background: rgba(159,139,255,.3);
-}
-
-/* DESC */
-.desc {
-  line-height: 1.9;
-  color: #cfc9ff;
-  margin-top: 10px;
-}
-
-/* BUTTON */
-#musicBtn {
-  margin-top: 30px;
-  padding: 14px 30px;
-  background: linear-gradient(135deg,#6d5cff,#9f8bff);
-  border-radius: 10px;
-  border: none;
-  color: white;
-  cursor: pointer;
-}
-
-/* FOOTER */
-footer {
-  text-align: center;
-  padding: 20px;
-  font-size: .9rem;
-  color: #777;
-}
-
-/* GAME */
-.game-container {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 40px 20px;
-}
-iframe {
-  width: 90vw;
-  height: 75vh;
-  border-radius: 12px;
-  box-shadow: 0 0 60px rgba(159,139,255,0.3);
-  border: 4px solid rgba(159,139,255,0.6);
-}
-
-/* RESPONSIVO */
-@media(max-width:600px){
-  .hero-content { padding: 40px 20px; }
-  .avatar { width: 150px; height: 150px; }
-  iframe { height: 50vh; }
+  border-radius: 50%;
+  display: block;
 }
