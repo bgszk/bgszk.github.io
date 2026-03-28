@@ -1,178 +1,376 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Skills / Codes - Jordan</title>
-
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
-<script src="script.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Skills - Jordan</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="page-codes">
+  <canvas id="bg-canvas" aria-hidden="true"></canvas>
 
-<canvas id="background"></canvas>
+  <div class="site-shell">
+    <header class="nav">
+      <a class="logo" href="index.html">Jordan</a>
 
-<header class="nav">
-  <div class="logo">Jordan</div>
-  <nav>
-    <a href="index.html">Home</a>
-    <a href="game.html">Game</a>
-    <a href="codes.html">Skills</a>
-    <a href="https://github.com/bgszk" target="_blank">GitHub</a>
-  </nav>
-</header>
+      <nav class="menu">
+        <a href="index.html">Home</a>
+        <a href="game.html">Game</a>
+        <a href="codes.html" class="active">Skills</a>
+        <a href="https://github.com/bgszk" target="_blank" rel="noopener noreferrer">GitHub</a>
+      </nav>
+    </header>
 
-<main class="codes-container">
-  <h2>Minhas Skills / Exemplos</h2>
-  <p class="desc">Aqui estão alguns trechos mostrando como eu manjo do NGC e programação de baixo nível.</p>
+    <main class="page-main">
+      <section class="panel skills-panel">
+        <div class="section-head">
+          <h1>Skills</h1>
+          <p class="desc">
+            Exemplos longos só para mostrar domínio técnico, sem parecer vitrine de projetinho.
+          </p>
+        </div>
 
-  <div class="code-cards">
-
-    <div class="code-card">
-      <h3>C</h3>
-      <pre>
-#include &lt;stdio.h&gt;
+        <div class="skills-grid">
+          <article class="skill-card">
+            <div class="skill-top">
+              <h2>C</h2>
+              <button class="copyBtn" type="button">Copiar</button>
+            </div>
+            <pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
 #include &lt;string.h&gt;
 
-struct User {
-    char name[50];
-    int level;
-};
+typedef struct {
+    uint32_t eax;
+    uint32_t ebx;
+    uint32_t ecx;
+    uint32_t edx;
+} cpu_state_t;
 
-int main() {
-    struct User player;
-    strcpy(player.name, "Jordan");
-    player.level = 99;
-    printf("Jogador: %s, Level: %d\n", player.name, player.level);
+static void dump_state(const cpu_state_t *state) {
+    printf("EAX=%08X\n", state-&gt;eax);
+    printf("EBX=%08X\n", state-&gt;ebx);
+    printf("ECX=%08X\n", state-&gt;ecx);
+    printf("EDX=%08X\n", state-&gt;edx);
+}
+
+static void xor_block(uint8_t *buf, size_t len, uint8_t key) {
+    for (size_t i = 0; i &lt; len; ++i) {
+        buf[i] ^= key;
+    }
+}
+
+int main(void) {
+    cpu_state_t state = {
+        .eax = 0xDEADBEEF,
+        .ebx = 0xCAFEBABE,
+        .ecx = 0x41414141,
+        .edx = 0x13371337
+    };
+
+    uint8_t payload[] = "raw-buffer-control";
+    xor_block(payload, strlen((char*)payload), 0x5A);
+
+    dump_state(&state);
+    printf("patched: ");
+    for (size_t i = 0; i &lt; sizeof(payload) - 1; ++i) {
+        printf("%02X ", payload[i]);
+    }
+    printf("\n");
+
     return 0;
-}
-      </pre>
-      <button class="copyBtn">Copiar</button>
-    </div>
+}</code></pre>
+          </article>
 
-    <div class="code-card">
-      <h3>C++</h3>
-      <pre>
-#include &lt;iostream&gt;
+          <article class="skill-card">
+            <div class="skill-top">
+              <h2>C++</h2>
+              <button class="copyBtn" type="button">Copiar</button>
+            </div>
+            <pre><code>#include &lt;iostream&gt;
 #include &lt;vector&gt;
+#include &lt;memory&gt;
+#include &lt;algorithm&gt;
+#include &lt;cstdint&gt;
 
-class Enemy {
-    int health;
+class MemoryRegion {
 public:
-    Enemy(int h) : health(h) {}
-    void takeDamage(int d) { health -= d; }
-    int getHealth() { return health; }
+    MemoryRegion(std::uintptr_t base, std::size_t size)
+        : base_(base), size_(size) {}
+
+    bool contains(std::uintptr_t addr) const {
+        return addr &gt;= base_ &amp;&amp; addr &lt; (base_ + size_);
+    }
+
+    void dump() const {
+        std::cout &lt;&lt; "region: 0x" &lt;&lt; std::hex &lt;&lt; base_
+                  &lt;&lt; " size: 0x" &lt;&lt; size_ &lt;&lt; std::dec &lt;&lt; '\n';
+    }
+
+private:
+    std::uintptr_t base_;
+    std::size_t size_;
 };
 
 int main() {
-    std::vector&lt;Enemy&gt; enemies = {Enemy(100), Enemy(150)};
-    enemies[0].takeDamage(40);
-    std::cout &lt;&lt; "Inimigo 0 vida: " &lt;&lt; enemies[0].getHealth() &lt;&lt; std::endl;
-}
-      </pre>
-      <button class="copyBtn">Copiar</button>
-    </div>
+    std::vector&lt;std::unique_ptr&lt;MemoryRegion&gt;&gt; regions;
+    regions.emplace_back(std::make_unique&lt;MemoryRegion&gt;(0x1000, 0x200));
+    regions.emplace_back(std::make_unique&lt;MemoryRegion&gt;(0x2000, 0x400));
+    regions.emplace_back(std::make_unique&lt;MemoryRegion&gt;(0x3000, 0x800));
 
-    <div class="code-card">
-      <h3>C#</h3>
-      <pre>
-using System;
+    for (const auto&amp; region : regions) {
+        region-&gt;dump();
+    }
 
-class Program {
-    static void Main() {
-        int[] values = {10, 20, 30};
-        foreach(var v in values){
-            Console.WriteLine("Valor: " + v);
+    auto target = std::find_if(
+        regions.begin(),
+        regions.end(),
+        [](const auto&amp; region) {
+            return region-&gt;contains(0x22AF);
+        }
+    );
+
+    if (target != regions.end()) {
+        std::cout &lt;&lt; "address mapped inside region\n";
+    } else {
+        std::cout &lt;&lt; "address not mapped\n";
+    }
+
+    return 0;
+}</code></pre>
+          </article>
+
+          <article class="skill-card">
+            <div class="skill-top">
+              <h2>C#</h2>
+              <button class="copyBtn" type="button">Copiar</button>
+            </div>
+            <pre><code>using System;
+using System.Linq;
+using System.Reflection;
+using System.Collections.Generic;
+
+public class HookRegistry
+{
+    private readonly Dictionary&lt;string, MethodInfo&gt; _methods = new();
+
+    public void Scan(Type t)
+    {
+        foreach (var method in t.GetMethods(
+            BindingFlags.Public |
+            BindingFlags.NonPublic |
+            BindingFlags.Static |
+            BindingFlags.Instance))
+        {
+            _methods[method.Name] = method;
+        }
+    }
+
+    public void Dump()
+    {
+        foreach (var pair in _methods.OrderBy(p =&gt; p.Key))
+        {
+            Console.WriteLine($"{pair.Key} -&gt; {pair.Value.ReturnType.Name}");
         }
     }
 }
-      </pre>
-      <button class="copyBtn">Copiar</button>
-    </div>
 
-    <div class="code-card">
-      <h3>Rust</h3>
-      <pre>
-struct Player {
+public class TargetRuntime
+{
+    private static string ResolveToken(int token) =&gt; $"token:{token:X}";
+    public int Patch(int address) =&gt; address ^ 0x45AF;
+}
+
+public static class Program
+{
+    public static void Main()
+    {
+        var registry = new HookRegistry();
+        registry.Scan(typeof(TargetRuntime));
+        registry.Dump();
+
+        var runtime = new TargetRuntime();
+        Console.WriteLine(runtime.Patch(0x401000));
+    }
+}</code></pre>
+          </article>
+
+          <article class="skill-card">
+            <div class="skill-top">
+              <h2>Rust</h2>
+              <button class="copyBtn" type="button">Copiar</button>
+            </div>
+            <pre><code>use std::collections::HashMap;
+
+#[derive(Debug)]
+struct Section {
     name: String,
-    level: u32,
+    base: usize,
+    size: usize,
+}
+
+impl Section {
+    fn contains(&self, addr: usize) -&gt; bool {
+        addr &gt;= self.base &amp;&amp; addr &lt; self.base + self.size
+    }
 }
 
 fn main() {
-    let p = Player { name: "Jordan".to_string(), level: 99 };
-    println!("{} está no level {}", p.name, p.level);
-}
-      </pre>
-      <button class="copyBtn">Copiar</button>
-    </div>
+    let mut table: HashMap&lt;&amp;str, Section&gt; = HashMap::new();
 
-    <div class="code-card">
-      <h3>Ruby</h3>
-      <pre>
-class Enemy
-  attr_accessor :health
-  def initialize(h)
-    @health = h
+    table.insert("text", Section {
+        name: ".text".into(),
+        base: 0x401000,
+        size: 0x1800,
+    });
+
+    table.insert("rdata", Section {
+        name: ".rdata".into(),
+        base: 0x403000,
+        size: 0x0C00,
+    });
+
+    table.insert("data", Section {
+        name: ".data".into(),
+        base: 0x404000,
+        size: 0x0800,
+    });
+
+    let probe = 0x401ABC;
+
+    for (_, section) in &table {
+        if section.contains(probe) {
+            println!("address {:#X} inside {}", probe, section.name);
+        }
+    }
+}</code></pre>
+          </article>
+
+          <article class="skill-card">
+            <div class="skill-top">
+              <h2>Ruby</h2>
+              <button class="copyBtn" type="button">Copiar</button>
+            </div>
+            <pre><code>class BinaryInspector
+  attr_reader :path, :strings
+
+  def initialize(path)
+    @path = path
+    @strings = []
+  end
+
+  def extract_ascii(min = 4)
+    data = File.binread(path)
+    current = +""
+
+    data.each_byte do |byte|
+      if byte.between?(32, 126)
+        current &lt;&lt; byte.chr
+      else
+        if current.length &gt;= min
+          @strings &lt;&lt; current.dup
+        end
+        current.clear
+      end
+    end
+
+    @strings
+  end
+
+  def summary
+    puts "file: #{path}"
+    puts "strings found: #{@strings.length}"
+    @strings.first(10).each_with_index do |str, i|
+      puts "[#{i}] #{str}"
+    end
   end
 end
 
-e = Enemy.new(100)
-e.health -= 40
-puts "Inimigo vida: #{e.health}"
-      </pre>
-      <button class="copyBtn">Copiar</button>
-    </div>
+inspector = BinaryInspector.new("sample.bin")
+inspector.extract_ascii
+inspector.summary</code></pre>
+          </article>
 
-    <div class="code-card">
-      <h3>Shell</h3>
-      <pre>
-#!/bin/bash
-for file in *.txt; do
-  echo "Arquivo encontrado: $file"
+          <article class="skill-card">
+            <div class="skill-top">
+              <h2>Shell</h2>
+              <button class="copyBtn" type="button">Copiar</button>
+            </div>
+            <pre><code>#!/usr/bin/env bash
+
+set -euo pipefail
+
+TARGET_DIR="${1:-/usr/bin}"
+TMP_FILE="/tmp/scan_report.txt"
+
+echo "[*] scanning: ${TARGET_DIR}" &gt; "${TMP_FILE}"
+
+find "${TARGET_DIR}" -maxdepth 1 -type f 2&gt;/dev/null | while read -r file; do
+  perms=$(stat -c "%A" "$file" 2&gt;/dev/null || true)
+  size=$(stat -c "%s" "$file" 2&gt;/dev/null || true)
+  mime=$(file -b "$file" 2&gt;/dev/null || true)
+
+  printf "%s | %s bytes | %s | %s\n" \
+    "$file" \
+    "$size" \
+    "$perms" \
+    "$mime" \
+    &gt;&gt; "${TMP_FILE}"
 done
-      </pre>
-      <button class="copyBtn">Copiar</button>
-    </div>
 
-    <div class="code-card">
-      <h3>Assembly</h3>
-      <pre>
-section .data
-    msg db 'Hello NGC!',0
+sort "${TMP_FILE}" | tail -n 50
+
+echo "[+] report saved in ${TMP_FILE}"</code></pre>
+          </article>
+
+          <article class="skill-card">
+            <div class="skill-top">
+              <h2>Assembly</h2>
+              <button class="copyBtn" type="button">Copiar</button>
+            </div>
+            <pre><code>section .data
+    title db "low-level path engaged", 10
+    title_len equ $ - title
+
+section .bss
+    buffer resb 64
 
 section .text
     global _start
 
 _start:
-    mov edx,10
-    mov ecx,msg
-    mov ebx,1
-    mov eax,4
+    mov eax, 4
+    mov ebx, 1
+    mov ecx, title
+    mov edx, title_len
     int 0x80
-    mov eax,1
-    int 0x80
-      </pre>
-      <button class="copyBtn">Copiar</button>
-    </div>
 
+    mov edi, buffer
+    mov ecx, 64
+    xor eax, eax
+
+fill_loop:
+    mov [edi], al
+    inc edi
+    inc eax
+    loop fill_loop
+
+    mov eax, 1
+    xor ebx, ebx
+    int 0x80</code></pre>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>And you don&apos;t seem to understand</p>
+    </footer>
   </div>
-</main>
 
-<footer>
-  <p>And you don't seem to understand</p>
-</footer>
-
-<script>
-// COPIAR CÓDIGO
-document.querySelectorAll('.copyBtn').forEach(btn => {
-  btn.addEventListener('click', e => {
-    const pre = e.target.previousElementSibling;
-    navigator.clipboard.writeText(pre.innerText);
-    e.target.innerText = 'Copiado!';
-    setTimeout(()=>{ e.target.innerText = 'Copiar'; }, 1500);
-  });
-});
-</script>
+  <script src="script.js"></script>
 </body>
 </html>
