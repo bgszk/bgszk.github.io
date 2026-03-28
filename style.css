@@ -6,103 +6,120 @@
   font-family: 'JetBrains Mono', monospace;
 }
 
+/* ALTURA TOTAL */
 html, body {
   height: 100%;
   overflow-x: hidden;
-  background: #050507;
+}
+
+/* FUNDO */
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
   color: #eae6ff;
+  background: #050507; /* fallback */
 }
 
-/* CANVAS fundo */
-#background {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -1;
-}
-
-/* NAV */
+/* NAVBAR */
 .nav {
+  position: relative;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 25px 60px;
   backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  z-index: 10;
 }
+
+.logo {
+  font-size: 1.2rem;
+  letter-spacing: 2px;
+  color: #cbb6ff;
+}
+
 nav a {
   margin-left: 30px;
   text-decoration: none;
   color: #aaa;
-  transition: .3s;
+  position: relative;
+  transition: 0.3s;
 }
+
+nav a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -5px;
+  width: 0%;
+  height: 1px;
+  background: #a78bfa;
+  transition: 0.3s;
+}
+
 nav a:hover {
   color: #fff;
 }
 
-/* HERO */
-main.hero {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: calc(100vh - 120px);
-  padding: 40px 20px;
-  z-index: 1;
+nav a:hover::after {
+  width: 100%;
 }
 
-/* HERO CONTENT CENTRALIZADO */
+/* HERO / INDEX PRINCIPAL */
+main {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+}
+
 .hero-content {
   text-align: center;
   padding: 60px 50px;
   border-radius: 24px;
-  background: rgba(0,0,0,0.4);
+  background: rgba(255,255,255,0.03);
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(159,139,255,0.6);
-  display: flex;
-  flex-direction: column;
-  align-items: center; /* garante que avatar e textos fiquem centralizados */
+  border: 1px solid rgba(255,255,255,0.06);
+  box-shadow:
+    0 0 120px rgba(120,90,255,0.15),
+    inset 0 0 40px rgba(120,90,255,0.05);
 }
 
-/* AVATAR */
 .avatar {
   width: 200px;
   height: 200px;
-  margin-bottom: 25px;
+  margin: 0 auto 25px;
   border-radius: 50%;
-  border: 4px solid #9f8bff;
   overflow: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center; /* centraliza imagem dentro do círculo */
+  position: relative;
 }
+
+.avatar::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: 50%;
+  background: linear-gradient(135deg,#7a5cff,#a78bfa,#c084fc);
+  filter: blur(15px);
+  opacity: 0.7;
+}
+
 .avatar img {
+  position: relative;
   width: 100%;
   height: 100%;
   object-fit: cover;
   border-radius: 50%;
-  display: block;
 }
 
-/* LANGUAGENS */
-.langs {
-  margin-top: 20px;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-.langs span {
-  padding: 6px 12px;
-  margin: 4px;
-  background: rgba(255,255,255,0.1);
-  border-radius: 6px;
-  transition: .3s;
-}
-.langs span:hover {
-  background: rgba(159,139,255,.3);
+h1 {
+  font-size: 1.8rem;
+  margin-bottom: 15px;
+  letter-spacing: 1px;
 }
 
-/* DESCRIÇÃO */
 .desc {
   line-height: 1.9;
   color: #cfc9ff;
@@ -112,28 +129,146 @@ main.hero {
 /* BOTÃO */
 #musicBtn {
   margin-top: 30px;
-  padding: 14px 30px;
-  background: linear-gradient(135deg,#6d5cff,#9f8bff);
-  border-radius: 10px;
+  padding: 14px 35px;
+  border-radius: 12px;
   border: none;
-  color: white;
+  background: linear-gradient(135deg,#6d5cff,#9f8bff);
+  color: #fff;
   cursor: pointer;
+  transition: 0.3s;
 }
+
 #musicBtn:hover {
+  transform: translateY(-2px) scale(1.04);
+  box-shadow: 0 0 25px rgba(140,100,255,0.6);
+}
+
+/* RODAPÉ */
+footer {
+  text-align: center;
+  padding: 20px;
+  font-size: 0.9rem;
+  color: #777;
+}
+
+/* PÁGINA DE JOGO */
+.game-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+iframe {
+  width: 90vw;
+  height: 75vh;
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 0 60px rgba(120,90,255,0.2);
+}
+
+/* LINGUAGENS / INDEX */
+.langs {
+  margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+.langs span {
+  padding: 6px 14px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  transition: 0.2s;
+}
+
+.langs span:hover {
+  background: rgba(140,100,255,0.2);
+  border-color: #9f8bff;
+}
+
+/* CODES / SKILLS */
+.codes-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 60px 20px;
+  text-align: center;
+  z-index: 1;
+}
+
+.codes-container h2 {
+  font-size: 2rem;
+  color: #cbb6ff;
+  margin-bottom: 10px;
+}
+
+.codes-container .desc {
+  color: #cfc9ff;
+  margin-bottom: 40px;
+  max-width: 700px;
+  line-height: 1.8;
+}
+
+.code-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.code-card {
+  background: rgba(0,0,0,0.5);
+  border: 1px solid rgba(159,139,255,0.5);
+  border-radius: 16px;
+  padding: 20px;
+  width: 350px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 0 20px rgba(159,139,255,0.4);
+  transition: transform .3s, box-shadow .3s;
+}
+
+.code-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 0 35px rgba(159,139,255,0.7);
+}
+
+.code-card pre {
+  background: rgba(20,15,50,0.8);
+  padding: 15px;
+  border-radius: 8px;
+  overflow-x: auto;
+  font-size: 0.82rem;
+  color: #fff;
+  width: 100%;
+  max-height: 300px;
+  text-align: left;
+}
+
+.copyBtn {
+  margin-top: 15px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: none;
+  background: linear-gradient(135deg,#6d5cff,#9f8bff);
+  color: #fff;
+  cursor: pointer;
+  transition: transform .2s, box-shadow .2s;
+}
+
+.copyBtn:hover {
   transform: scale(1.05);
   box-shadow: 0 0 20px rgba(159,139,255,0.7);
 }
 
-/* FOOTER */
-footer {
-  text-align: center;
-  padding: 20px;
-  font-size: .9rem;
-  color: #777;
-}
-
 /* RESPONSIVO */
-@media(max-width:600px){
-  .hero-content { padding: 40px 20px; }
-  .avatar { width: 150px; height: 150px; }
+@media(max-width:800px){
+  .code-card { width: 90%; }
+  .hero-content { padding: 40px 30px; }
 }
