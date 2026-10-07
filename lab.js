@@ -536,4 +536,180 @@
 
     minInput.addEventListener("change", repaint);
   }
+
+  /* ---------- L-03: mapa de entropia ---------- */
+
+  const MAP_WINDOWS = 512; // faixas desenhadas: o arquivo é dividido entre elas
+  const MIN_WINDOW_BYTES = 256; // janela menor que isso não diz nada
+
+  function entropyMap(bytes) {
+    const count = Math.max(
+      1,
+      Math.min(MAP_WINDOWS, Math.floor(bytes.length / MIN_WINDOW_BYTES) || 1)
+    );
+    const step = Math.ceil(bytes.length / count) || 1;
+    const values = new Float32Array(count);
+    const counts = new Uint32Array(256);
+
+    for (let w = 0; w < count; w += 1) {
+      const start = w * step;
+      const end = Math.min(bytes.length, start + step);
+      if (end <= start) {
+        break;
+      }
+
+      counts.fill(0);
+      for (let i = start; i < end; i += 1) {
+        counts[bytes[i]] += 1;
+      }
+
+      const total = end - start;
+      let value = 0;
+      for (let i = 0; i < 256; i += 1) {
+        if (!counts[i]) {
+          continue;
+        }
+        const p = counts[i] / total;
+        value -= p * Math.log2(p);
+      }
+      values[w] = value;
+    }
+
+    return { values, step };
+  }
+
+  // obsidiana na base da escala, violeta no topo: a cor é a própria medida
+  function entropyColor(value) {
+    const t = Math.max(0, Math.min(1, value / 8));
+    return `rgb(${Math.round(16 + 123 * t)},${Math.round(16 + 76 * t)},${Math.round(
+      22 + 224 * t
+    )})`;
+  }
+
+  function renderEntropy(out, file, bytes) {
+    const map = entropyMap(bytes);
+    const values = map.values;
+    const global = entropy(bytes, 0, bytes.length);
+
+    let peak = 0;
+    let trough = 0;
+    values.forEach((value, index) => {
+      if (value > values[peak]) {
+        peak = index;
+      }
+      if (value < values[trough]) {
+        trough = index;
+      }
+    });
+
+    out.textContent = "";
+    out.appendChild(
+      el("p", "lab-file", `${file.name} · ${bytesSize(file.size)} · janelas de ${bytesSize(map.step)}`)
+    );
+
+    const rows = el("dl", "lab-rows");
+    const addRow = (key, value) => {
+      const row = el("div", "lab-row");
+      row.appendChild(el("dt", "lab-key", key));
+      row.appendChild(el("dd", "lab-val", value));
+      rows.appendChild(row);
+    };
+    addRow("Entropia global", global === null ? "—" : `${global.toFixed(2)} bits/byte`);
+    addRow("Pico", `${values[peak].toFixed(2)} bits/byte em ${hex(peak * map.step, 8)}`);
+    addRow("Vale", `${values[trough].toFixed(2)} bits/byte em ${hex(trough * map.step, 8)}`);
+    out.appendChild(rows);
+
+    const canvas = document.createElement("canvas");
+    canvas.className = "lab-map";
+    canvas.width = values.length;
+    canvas.height = 1;
+    canvas.setAttribute("aria-hidden", "true");
+    const ctx = canvas.getContext("2d");
+
+    if (ctx) {
+      values.forEach((value, index) => {
+        ctx.fillStyle = entropyColor(value);
+        ctx.fillRect(index, 0, 1, 1);
+      });
+    }
+
+    const block = el("div", "lab-sub");
+    block.appendChild(
+      el("p", "lab-label", `entropia por janela — ${values.length} amostras de ${bytesSize(map.step)}`)
+    );
+    block.appendChild(canvas);
+
+    const axis = el("div", "lab-axis");
+    axis.appendChild(el("span", null, hex(0, 8)));
+    axis.appendChild(el("span", null, "0 → 8 bits/byte"));
+    axis.appendChild(el("span", null, hex(Math.max(0, bytes.length - 1), 8)));
+    block.appendChild(axis);
+
+    block.appendChild(
+      el(
+        "p",
+        "lab-hint",
+        values[peak] >= 7.5
+          ? "o pico no topo da escala indica trecho comprimido ou cifrado."
+          : "nenhuma janela no topo da escala: nada aqui parece comprimido ou cifrado."
+      )
+    );
+
+    const ranked = Array.from(values, (value, index) => ({ value, index }))
+      .sort((a, b) => b.value - a.value)
+      .slice(0, 8);
+
+    const head = el("tr");
+    ["Offset", "Bits/byte"].forEach((title) => head.appendChild(el("th", null, title)));
+    const thead = el("thead");
+    thead.appendChild(head);
+
+    const body = el("tbody");
+    ranked.forEach((entry) => {
+      const row = el("tr");
+      row.appendChild(el("td", "lab-name", hex(entry.index * map.step, 8)));
+      const cell = el("td");
+      cell.appendChild(entropyCell(entry.value));
+      row.appendChild(cell);
+      body.appendChild(row);
+    });
+
+    const table = el("table", "lab-table");
+    table.appendChild(thead);
+    table.appendChild(body);
+
+    const scroll = el("div", "lab-scroll");
+    scroll.appendChild(table);
+    block.appendChild(scroll);
+
+    out.appendChild(block);
+    out.hidden = false;
+  }
+
+  const mapTool = document.getElementById("lab-map");
+
+  if (mapTool) {
+    const input = mapTool.querySelector("input[type=file]");
+    const out = mapTool.querySelector(".lab-out");
+    const status = mapTool.querySelector(".lab-status");
+
+    bindPicker(mapTool, input, (file) => {
+      out.hidden = true;
+      status.textContent = `lendo ${file.name}…`;
+
+      if (file.size > MAX_BYTES) {
+        status.textContent = "arquivo grande demais (limite: 32 MiB).";
+        return;
+      }
+
+      readBytes(file)
+        .then((bytes) => {
+          status.textContent = `${file.name} · ${bytesSize(file.size)}`;
+          renderEntropy(out, file, bytes);
+        })
+        .catch(() => {
+          status.textContent = "não consegui ler o arquivo.";
+        });
+    });
+  }
 })();

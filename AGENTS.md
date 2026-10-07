@@ -48,7 +48,7 @@ call `reload_preview` after edits so the preview iframe picks it up.
 | `lab.css` | Styles for the executable tools; loaded only by `projetos.html` |
 | `background.js` | `window.KineticField` — domain-warped Perlin field + marching-squares contours |
 | `script.js` | Reveal observers, drag/wheel matrix, cursor badge, magnetic links, form, music |
-| `lab.js` | ELF/PE header reader (L-01) + strings/hex dump (L-02), only on `projetos.html` |
+| `lab.js` | ELF/PE header reader (L-01) + strings/hex dump (L-02) + entropy map (L-03), only on `projetos.html` |
 
 ### The background is not a particle system
 
@@ -78,9 +78,10 @@ changes — never pin it to a constant.
 ### The lab tools are real (and stay that way)
 
 `lab.js` parses the file the visitor picks **inside the browser**: ELF and PE
-headers, section tables and per-section Shannon entropy (L-01), plus ASCII string
-extraction and an addressed hex dump (L-02). Everything is read with
-`File.arrayBuffer()`; nothing is uploaded. Never route a file through a server or
+headers, section tables and per-section Shannon entropy (L-01), ASCII string
+extraction and an addressed hex dump (L-02), and a windowed entropy map over the
+whole file (L-03: 512 windows, each one's entropy drawn as a canvas strip).
+Everything is read with `File.arrayBuffer()`; nothing is uploaded. Never route a file through a server or
 an external API, and never replace the parsers with canned output — the point is
 that the numbers come from the real bytes. All file-derived text is written with
 `textContent` (a binary can contain markup), and every read goes through
@@ -118,6 +119,9 @@ that the numbers come from the real bytes. All file-derived text is written with
   **fills that carry white text** (buttons, cursor badge, selection), where it reaches
   ≈9:1. Don't swap them: the dark purple fails as text on obsidian, and the light one
   fails as a fill under white text.
+- `--slate` (#7d7d7d) is the muted neutral for the mono micro-labels (dates, tags,
+  offsets, table headers). #666 measured 3.4:1 on obsidian and failed AA for small
+  text — don't darken it back. `--slate-2` (#8d8d8d) stays the body-copy grey.
 - `assets/retrato.jpg` — the real portrait, tracked in the repo. It appears **only**
   as the small circular `.hero-about-avatar` beside the hero intro line: the owner
   asked for a small icon elsewhere, not a hero centrepiece, and refused any colour

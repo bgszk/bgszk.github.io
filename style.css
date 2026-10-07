@@ -11,7 +11,7 @@
   --accent: #8b5cf6;
   --accent-deep: #5b21b6;
   --accent-dim: rgba(139, 92, 246, 0.16);
-  --slate: #666666;
+  --slate: #7d7d7d; /* rótulos pequenos: #666 dava 3,4:1 e reprovava em AA */
   --slate-2: #8d8d8d;
   --line: rgba(242, 242, 242, 0.1);
   --line-strong: rgba(242, 242, 242, 0.22);
@@ -262,6 +262,15 @@ a {
   position: relative;
   padding: clamp(72px, 11vw, 156px) var(--gutter);
   border-top: 1px solid var(--line);
+}
+
+/* as âncoras (#projetos, #contato, #lab-headers…) precisam parar abaixo da
+   barra fixa, senão o alvo do salto fica escondido atrás dela */
+.section,
+.terminal,
+.lab-tool,
+.archive-card {
+  scroll-margin-top: calc(var(--nav-h) + 16px);
 }
 
 .section-head {

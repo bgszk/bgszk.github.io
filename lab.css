@@ -306,9 +306,37 @@
   border-bottom-color: var(--accent);
 }
 
+/* ---------- mapa de entropia ---------- */
+
+.lab-map {
+  display: block;
+  width: 100%;
+  height: 84px;
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  /* uma faixa por janela: sem suavizar, para o limite entre elas ficar legível */
+  image-rendering: pixelated;
+}
+
+.lab-axis {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 14px;
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--slate);
+}
+
 @media (max-width: 720px) {
   .lab-table th:nth-child(3),
   .lab-table td:nth-child(3) {
     display: none;
+  }
+
+  .lab-map {
+    height: 64px;
   }
 }

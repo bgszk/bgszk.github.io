@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Projetos — Jordan</title>
   <meta name="description" content="Arquivo de projetos: análise de binários, introspecção de runtime, modelagem de memória e automação forense.">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -33,9 +34,9 @@
         <p class="eyebrow">02 — Arquivo</p>
         <h1 class="display">Trabalho<br><em>indexado</em></h1>
         <p class="lede">
-          Duas ferramentas rodam nesta página: escolha um binário e leia cabeçalho,
-          seções e entropia sem instalar nada. Abaixo delas, as nove frentes de
-          trabalho que sustentam esse tipo de análise.
+          Três ferramentas rodam nesta página: escolha um arquivo e leia cabeçalho,
+          seções, entropia, strings e dump sem instalar nada. Abaixo delas, as nove
+          frentes de trabalho que sustentam esse tipo de análise.
         </p>
       </section>
 
@@ -95,6 +96,31 @@
                 <input id="lab-min" type="number" min="4" max="64" step="1" value="6" inputmode="numeric">
                 <span class="lab-hint">caracteres</span>
               </div>
+              <p class="lab-status">aguardando arquivo</p>
+            </div>
+            <div class="lab-out" hidden></div>
+          </article>
+
+          <article class="lab-tool" id="lab-map" data-reveal>
+            <div class="lab-head">
+              <p class="mono-label">L-03 · entropia</p>
+              <h3>Mapa de entropia</h3>
+              <p>
+                Divide o arquivo em janelas de tamanho fixo e mede a entropia de
+                Shannon em cada uma, desenhando o resultado como faixas: zeros e
+                texto repetitivo ficam escuros, código fica no meio, e blocos
+                comprimidos ou cifrados sobem para o violeta. <b>É o mesmo sinal
+                que separa código de bloco empacotado — agora ao longo de todo o
+                arquivo.</b>
+              </p>
+            </div>
+            <div class="lab-controls">
+              <label class="lab-drop">
+                <input class="lab-input" type="file" aria-label="Escolher arquivo para medir entropia">
+                <b>Escolher arquivo</b>
+                <span class="lab-drop-name">ou arraste o arquivo aqui</span>
+              </label>
+              <p class="lab-hint">escala de 0 a 8 bits/byte — o arquivo não é enviado para nenhum servidor</p>
               <p class="lab-status">aguardando arquivo</p>
             </div>
             <div class="lab-out" hidden></div>
