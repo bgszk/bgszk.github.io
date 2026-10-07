@@ -38,15 +38,17 @@ call `reload_preview` after edits so the preview iframe picks it up.
 
 | File | Role |
 | --- | --- |
-| `index.html` | Hero Monolith, Project Matrix, Timeline, Contact Terminal |
-| `projetos.html` | Project archive (P-01…P-09) + capability pillars |
+| `index.html` | Hero Monolith, Project Matrix, Timeline, Contact |
+| `projetos.html` | Executable tools (L-01/L-02) + archive (P-01…P-09) + capability pillars |
 | `processo.html` | Career phases + working method + principles |
 | `codes.html` | Language samples with copy-to-clipboard (kept at this URL on purpose) |
 | `game.html` | Embedded NES emulator |
-| `contato.html` | Contact terminal on its own route |
+| `contato.html` | Contact route — no published channels yet |
 | `style.css` | The entire design system (tokens, layout, motion, a11y) |
+| `lab.css` | Styles for the executable tools; loaded only by `projetos.html` |
 | `background.js` | `window.KineticField` — domain-warped Perlin field + marching-squares contours |
 | `script.js` | Reveal observers, drag/wheel matrix, cursor badge, magnetic links, form, music |
+| `lab.js` | ELF/PE header reader (L-01) + strings/hex dump (L-02), only on `projetos.html` |
 
 ### The background is not a particle system
 
@@ -66,6 +68,17 @@ displacement mutates them. An earlier revision hoisted `ny` to the row loop as a
 killed the animation frame and left a frozen field. Keep both declarations inside
 the grid loop.
 
+### The lab tools are real (and stay that way)
+
+`lab.js` parses the file the visitor picks **inside the browser**: ELF and PE
+headers, section tables and per-section Shannon entropy (L-01), plus ASCII string
+extraction and an addressed hex dump (L-02). Everything is read with
+`File.arrayBuffer()`; nothing is uploaded. Never route a file through a server or
+an external API, and never replace the parsers with canned output — the point is
+that the numbers come from the real bytes. All file-derived text is written with
+`textContent` (a binary can contain markup), and every read goes through
+`field()`, which returns `null` out of range instead of throwing.
+
 ### Cross-file contracts (easy to break)
 
 - The hero name is one monumental line: `.hero-name` (solid, z-index 2) with an
@@ -80,8 +93,12 @@ the grid loop.
   expects `.timeline::before` to draw the rail.
 - `script.js` calls `window.KineticField.setTurbulence()` on portrait hover — the
   guard already allows the global to be absent, but renaming the API breaks the effect.
-- The contact form has **no backend**. It composes a `mailto:` draft from
-  `data-mailto`. Don't add a fake success state.
+- The contact form is currently **removed from both pages** (the owner refused
+  placeholder channels): `.terminal-inner--single` + `.terminal--compact` render the
+  contact block with no channel list and no form. `script.js` still carries the
+  handler for a `.contact-form` that composes a `mailto:` draft from `data-mailto`,
+  so the markup can come back unchanged once real contact data exists — and it has
+  **no backend**, so don't add a fake success state when it does.
 
 ## Placeholder content to replace (not code defects)
 
@@ -97,9 +114,16 @@ the grid loop.
   border, no violet overlay, no radial mask, no blend mode. The `onerror` fallback to
   `assets/retrato-placeholder.svg` is only a safety net for a missing file. Swapping
   the file needs no other change.
-- Contact channels in `index.html` / `contato.html`: `contato@example.com`,
-  `https://wa.me/`, `https://www.linkedin.com/` (GitHub already points at the real
-  profile). Replace the `mailto:` href **and** the form's `data-mailto`.
+- Copy voice: the owner asked for **direct, technical copy** and rejected the
+  slogan register ("parece IA", e.g. "Escrevo software onde o controle é total").
+  Keep sentences short, name the real mechanism, and never invent clients, dates
+  or metrics.
+- Contact channels: the fake ones (`contato@example.com`, `https://wa.me/`,
+  `https://www.linkedin.com/`) were **deleted** from `index.html` and
+  `contato.html`; both pages now state that the channels are not published. The
+  only real one left is the footer link to `https://github.com/bgszk`. When the
+  owner supplies an e-mail or handles, restore the `.magnetic-list` and the form
+  (with its `data-mailto`) and drop the `--single` / `--compact` modifiers.
 - Timeline phases use `Fase 01…04` rather than dates, and project entries describe
   technical scope without invented clients or metrics. Add real dates and outcomes
   when available.

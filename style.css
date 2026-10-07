@@ -915,6 +915,16 @@ a {
   align-items: center;
 }
 
+/* variante sem lista de canais nem formulário: usada enquanto não existem
+   canais de contato públicos */
+.terminal-inner--single {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.terminal--compact {
+  min-height: auto;
+}
+
 .terminal-left h2 {
   margin-bottom: 20px;
 }

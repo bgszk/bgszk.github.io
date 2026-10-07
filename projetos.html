@@ -9,6 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="lab.css">
 </head>
 <body>
   <canvas id="bg-canvas" aria-hidden="true"></canvas>
@@ -32,10 +33,73 @@
         <p class="eyebrow">02 — Arquivo</p>
         <h1 class="display">Trabalho<br><em>indexado</em></h1>
         <p class="lede">
-          Cada entrada abaixo resolve um problema concreto de leitura, instrumentação
-          ou verificação de sistemas. O foco é sempre o mesmo: tornar visível o que
-          a máquina faz de fato.
+          Duas ferramentas rodam nesta página: escolha um binário e leia cabeçalho,
+          seções e entropia sem instalar nada. Abaixo delas, as nove frentes de
+          trabalho que sustentam esse tipo de análise.
         </p>
+      </section>
+
+      <!-- ============ FERRAMENTAS EXECUTÁVEIS ============ -->
+      <section class="section" id="lab">
+        <div class="section-head">
+          <p class="eyebrow">Ferramentas</p>
+          <h2 class="display" data-reveal>Rodando <em>aqui</em></h2>
+          <p class="lede" data-reveal>
+            JavaScript puro, sem biblioteca e sem servidor: o arquivo é lido com
+            File.arrayBuffer() na sua máquina e interpretado no navegador.
+          </p>
+        </div>
+
+        <div class="lab-tools">
+          <article class="lab-tool" id="lab-headers" data-reveal>
+            <div class="lab-head">
+              <p class="mono-label">L-01 · ELF / PE</p>
+              <h3>Leitor de cabeçalho</h3>
+              <p>
+                Lê o magic, a classe, o endianness, o entry point, a image base e a
+                tabela de seções de um executável ELF (Linux) ou PE (Windows) — e
+                calcula a entropia de cada seção. <b>Entropia perto de 8 bits/byte
+                numa seção de dados significa bloco comprimido ou cifrado.</b>
+              </p>
+            </div>
+            <div class="lab-controls">
+              <label class="lab-drop">
+                <input class="lab-input" type="file" aria-label="Escolher binário para analisar">
+                <b>Escolher binário</b>
+                <span class="lab-drop-name">ou arraste o arquivo aqui</span>
+              </label>
+              <p class="lab-hint">.elf .so .exe .dll — o arquivo não é enviado para nenhum servidor</p>
+              <p class="lab-status">aguardando arquivo</p>
+            </div>
+            <div class="lab-out" hidden></div>
+          </article>
+
+          <article class="lab-tool" id="lab-strings" data-reveal>
+            <div class="lab-head">
+              <p class="mono-label">L-02 · bytes</p>
+              <h3>Strings e dump hexadecimal</h3>
+              <p>
+                Varre o arquivo atrás de sequências ASCII imprimíveis, com tamanho
+                mínimo configurável, e mostra o dump hexadecimal endereçado dos
+                primeiros 512 bytes com o gutter de texto à direita.
+              </p>
+            </div>
+            <div class="lab-controls">
+              <label class="lab-drop">
+                <input class="lab-input" type="file" aria-label="Escolher arquivo para extrair strings">
+                <b>Escolher arquivo</b>
+                <span class="lab-drop-name">ou arraste o arquivo aqui</span>
+              </label>
+              <div class="lab-inline">
+                <label for="lab-min">tamanho mínimo</label>
+                <input id="lab-min" type="number" min="4" max="64" step="1" value="6" inputmode="numeric">
+                <span class="lab-hint">caracteres</span>
+              </div>
+              <p class="lab-status">aguardando arquivo</p>
+            </div>
+            <div class="lab-out" hidden></div>
+          </article>
+        </div>
       </section>
 
       <section class="section">
@@ -47,17 +111,19 @@
 
         <div class="archive">
           <article class="archive-card" data-reveal>
-            <p class="mono-label">P-01</p>
-            <h3>Dissecador de binários</h3>
-            <p>Parsing de cabeçalhos e seções, resolução de imports e reconstrução de fluxo de controle em executáveis sem símbolos.</p>
-            <ul><li>C</li><li>Capstone</li><li>ELF · PE</li></ul>
+            <p class="mono-label">P-01 · executável</p>
+            <h3>Leitor de cabeçalhos ELF/PE</h3>
+            <p>Magic, classe, endianness, entry point, image base e tabela de seções, com entropia por seção para separar código de bloco comprimido.</p>
+            <a class="archive-link" href="#lab-headers">Abrir ferramenta</a>
+            <ul><li>JavaScript</li><li>ELF · PE</li><li>Entropia</li></ul>
           </article>
 
           <article class="archive-card" data-reveal>
-            <p class="mono-label">P-02</p>
-            <h3>Extração de strings significativas</h3>
-            <p>Heurísticas para separar ruído de artefatos úteis em seções de dados, com agrupamento por origem e ordenação por relevância.</p>
-            <ul><li>Ruby</li><li>Bytes</li><li>Heurística</li></ul>
+            <p class="mono-label">P-02 · executável</p>
+            <h3>Strings e dump hexadecimal</h3>
+            <p>Sequências imprimíveis com tamanho mínimo ajustável e dump hexadecimal endereçado, no formato de saída do strings(1).</p>
+            <a class="archive-link" href="#lab-strings">Abrir ferramenta</a>
+            <ul><li>JavaScript</li><li>Bytes</li><li>Forensics</li></ul>
           </article>
 
           <article class="archive-card" data-reveal>
@@ -167,5 +233,6 @@
 
   <script src="background.js"></script>
   <script src="script.js"></script>
+  <script src="lab.js"></script>
 </body>
 </html>
