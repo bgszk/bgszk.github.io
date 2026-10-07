@@ -43,7 +43,7 @@ call `reload_preview` after edits so the preview iframe picks it up.
 | `processo.html` | Career phases + working method + principles |
 | `codes.html` | Language samples with copy-to-clipboard (kept at this URL on purpose) |
 | `game.html` | Embedded NES emulator |
-| `contato.html` | Contact route — no published channels yet |
+| `contato.html` | Contact route — real channels (e-mail, WhatsApp, GitHub) + mailto form |
 | `style.css` | The entire design system (tokens, layout, motion, a11y) |
 | `lab.css` | Styles for the executable tools; loaded only by `projetos.html` |
 | `background.js` | `window.KineticField` — domain-warped Perlin field + marching-squares contours |
@@ -105,12 +105,13 @@ that the numbers come from the real bytes. All file-derived text is written with
   of empty background.
 - `script.js` calls `window.KineticField.setTurbulence()` on portrait hover — the
   guard already allows the global to be absent, but renaming the API breaks the effect.
-- The contact form is currently **removed from both pages** (the owner refused
-  placeholder channels): `.terminal-inner--single` + `.terminal--compact` render the
-  contact block with no channel list and no form. `script.js` still carries the
-  handler for a `.contact-form` that composes a `mailto:` draft from `data-mailto`,
-  so the markup can come back unchanged once real contact data exists — and it has
-  **no backend**, so don't add a fake success state when it does.
+- The contact block is back on `index.html` and `contato.html` with the owner's real
+  channels: `.magnetic-list` (items are `.magnetic[data-magnetic]`) plus the
+  `.contact-form`, whose `data-mailto` is the owner's address. `script.js` composes a
+  `mailto:` draft from those fields — there is **no backend**, so never add a
+  success state and never send anything yourself. `.terminal-inner--single` /
+  `.terminal--compact` are the channel-less variants kept in `style.css` for the
+  case the list has to come out again.
 
 ## Placeholder content to replace (not code defects)
 
@@ -133,12 +134,11 @@ that the numbers come from the real bytes. All file-derived text is written with
   slogan register ("parece IA", e.g. "Escrevo software onde o controle é total").
   Keep sentences short, name the real mechanism, and never invent clients, dates
   or metrics.
-- Contact channels: the fake ones (`contato@example.com`, `https://wa.me/`,
-  `https://www.linkedin.com/`) were **deleted** from `index.html` and
-  `contato.html`; both pages now state that the channels are not published. The
-  only real one left is the footer link to `https://github.com/bgszk`. When the
-  owner supplies an e-mail or handles, restore the `.magnetic-list` and the form
-  (with its `data-mailto`) and drop the `--single` / `--compact` modifiers.
+- Contact channels are real now: `rodriguesjorhdam@gmail.com` and
+  `+55 79 99605-1780`, the latter linked as WhatsApp (`https://wa.me/5579996051780`),
+  on `index.html` and `contato.html`, plus the footer link to
+  `https://github.com/bgszk`. No LinkedIn. If the number turns out not to be a
+  WhatsApp line, point that entry at `tel:+5579996051780`.
 - Timeline phases use `Fase 01…04` rather than dates, and project entries describe
   technical scope without invented clients or metrics. Add real dates and outcomes
   when available.

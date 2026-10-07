@@ -203,16 +203,45 @@
       </section>
 
       <!-- ============ CONTACT TERMINAL ============ -->
-      <section class="terminal terminal--compact" id="contato">
-        <div class="terminal-inner terminal-inner--single">
+      <section class="terminal" id="contato">
+        <div class="terminal-inner">
           <div class="terminal-left">
             <p class="eyebrow eyebrow--block">06 — Contato</p>
             <h2 class="display" data-reveal>Contato</h2>
             <p data-reveal>
-              Canais ainda não publicados. Quando o e-mail e os perfis estiverem
-              definidos, eles entram aqui.
+              Análise de binários, falhas de memória e ferramental de linha de
+              comando. Diga o alvo e o prazo; respondo por e-mail ou WhatsApp.
             </p>
+
+            <div class="magnetic-list">
+              <a class="magnetic" data-magnetic href="mailto:rodriguesjorhdam@gmail.com">
+                rodriguesjorhdam@gmail.com <b>E-mail</b>
+              </a>
+              <a class="magnetic" data-magnetic href="https://wa.me/5579996051780" target="_blank" rel="noopener noreferrer">
+                +55 79 99605-1780 <b>WhatsApp</b>
+              </a>
+              <a class="magnetic" data-magnetic href="https://github.com/bgszk" target="_blank" rel="noopener noreferrer">
+                github.com/bgszk <b>GitHub</b>
+              </a>
+            </div>
           </div>
+
+          <form class="contact-form" data-mailto="rodriguesjorhdam@gmail.com">
+            <div class="field">
+              <label for="c-name">Nome</label>
+              <input id="c-name" name="name" type="text" placeholder="Como devo te chamar" autocomplete="name" required>
+            </div>
+            <div class="field">
+              <label for="c-email">E-mail</label>
+              <input id="c-email" name="email" type="email" placeholder="onde respondo" autocomplete="email" required>
+            </div>
+            <div class="field">
+              <label for="c-message">Mensagem</label>
+              <textarea id="c-message" name="message" rows="4" placeholder="Contexto, alvo, prazo." required></textarea>
+            </div>
+            <button class="btn btn--primary" type="submit">Abrir rascunho</button>
+            <p class="form-note">Abre o seu cliente de e-mail com a mensagem pronta — sem servidor no meio.</p>
+          </form>
         </div>
 
         <footer class="site-foot">
