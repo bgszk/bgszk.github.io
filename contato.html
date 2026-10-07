@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contato — Jordan</title>
+  <meta name="description" content="Fale com Jordan: projetos de segurança, análise de binários e engenharia de sistemas de baixo nível.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <canvas id="bg-canvas" aria-hidden="true"></canvas>
+  <div class="field-scrim" aria-hidden="true"></div>
+
+  <div class="site-shell">
+    <header class="topbar">
+      <a class="brand" href="index.html">Jordan<span class="brand-mark">/</span></a>
+      <nav class="tabs" aria-label="Navegação principal">
+        <a href="index.html"><span>01</span>Início</a>
+        <a href="projetos.html"><span>02</span>Projetos</a>
+        <a href="processo.html"><span>03</span>Processo</a>
+        <a href="codes.html"><span>04</span>Stack</a>
+        <a href="game.html"><span>05</span>Game</a>
+        <a href="contato.html" class="is-active" aria-current="page"><span>06</span>Contato</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="terminal">
+        <div class="terminal-inner">
+          <div class="terminal-left">
+            <p class="eyebrow eyebrow--block">06 — Terminal</p>
+            <h1 class="display" data-reveal>Vamos falar de<br>sistemas <em>reais</em></h1>
+            <p data-reveal>
+              Projetos de segurança, análise de binários, auditoria de memória ou
+              uma base de código que precisa descer de nível. Descreva o alvo e eu
+              digo por onde começar.
+            </p>
+
+            <div class="magnetic-list">
+              <a class="magnetic" data-magnetic href="mailto:contato@example.com">
+                contato@example.com <b>E-mail</b>
+              </a>
+              <a class="magnetic" data-magnetic href="https://github.com/bgszk" target="_blank" rel="noopener noreferrer">
+                github.com/bgszk <b>GitHub</b>
+              </a>
+              <a class="magnetic" data-magnetic href="https://www.linkedin.com/" target="_blank" rel="noopener noreferrer">
+                linkedin.com <b>LinkedIn</b>
+              </a>
+              <a class="magnetic" data-magnetic href="https://wa.me/" target="_blank" rel="noopener noreferrer">
+                WhatsApp direto <b>Mensagem</b>
+              </a>
+            </div>
+          </div>
+
+          <form class="contact-form" data-mailto="contato@example.com">
+            <div class="field">
+              <label for="c-name">Nome</label>
+              <input id="c-name" name="name" type="text" placeholder="Como devo te chamar" autocomplete="name" required>
+            </div>
+            <div class="field">
+              <label for="c-email">E-mail</label>
+              <input id="c-email" name="email" type="email" placeholder="onde respondo" autocomplete="email" required>
+            </div>
+            <div class="field">
+              <label for="c-message">Mensagem</label>
+              <textarea id="c-message" name="message" rows="5" placeholder="Contexto, alvo, prazo." required></textarea>
+            </div>
+            <button class="btn btn--primary" type="submit">Abrir rascunho</button>
+            <p class="form-note">Abre o seu cliente de e-mail com a mensagem pronta — sem servidor no meio.</p>
+          </form>
+        </div>
+
+        <footer class="site-foot">
+          <span>Jordan — MMXXVI</span>
+          <span class="foot-quote">And you don&apos;t seem to understand</span>
+          <a href="https://github.com/bgszk" target="_blank" rel="noopener noreferrer">GitHub</a>
+        </footer>
+      </section>
+    </main>
+  </div>
+
+  <script src="background.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Processo — Jordan</title>
+  <meta name="description" content="Método de trabalho: reconhecimento, instrumentação, verificação e entrega em projetos de baixo nível.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <canvas id="bg-canvas" aria-hidden="true"></canvas>
+  <div class="field-scrim" aria-hidden="true"></div>
+
+  <div class="site-shell">
+    <header class="topbar">
+      <a class="brand" href="index.html">Jordan<span class="brand-mark">/</span></a>
+      <nav class="tabs" aria-label="Navegação principal">
+        <a href="index.html"><span>01</span>Início</a>
+        <a href="projetos.html"><span>02</span>Projetos</a>
+        <a href="processo.html" class="is-active" aria-current="page"><span>03</span>Processo</a>
+        <a href="codes.html"><span>04</span>Stack</a>
+        <a href="game.html"><span>05</span>Game</a>
+        <a href="contato.html"><span>06</span>Contato</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="page-hero">
+        <p class="eyebrow">03 — Método</p>
+        <h1 class="display">Como o sistema<br><em>se revela</em></h1>
+        <p class="lede">
+          Trabalho de baixo nível não se resolve com palpite. Existe uma sequência:
+          observar sem interferir, instrumentar com precisão, reproduzir de forma
+          determinística e só então modificar.
+        </p>
+      </section>
+
+      <section class="section">
+        <div class="section-head">
+          <p class="eyebrow">Trajetória</p>
+          <h2 class="display" data-reveal>Camada por<br><em>camada</em></h2>
+          <p class="lede" data-reveal>O caminho que construiu a base técnica de hoje.</p>
+        </div>
+
+        <div class="timeline">
+          <article class="tl-item">
+            <p class="tl-when">Fase 01 — Fundamentos</p>
+            <h3>Máquina antes de abstração</h3>
+            <p>C, Assembly e o funcionamento real de processos, pilha, heap e chamadas de sistema. Sem essa base, todo o resto é superstição.</p>
+            <div class="tl-metrics"><span>C</span><span>Assembly</span><span>POSIX</span></div>
+          </article>
+
+          <article class="tl-item">
+            <p class="tl-when">Fase 02 — Reversão</p>
+            <h3>Ler o que ninguém documentou</h3>
+            <p>Análise de binários sem símbolos, reconstrução de protocolos e dedução de estruturas a partir do comportamento observado.</p>
+            <div class="tl-metrics"><span>Desmontagem</span><span>Protocolos</span><span>Debugging</span></div>
+          </article>
+
+          <article class="tl-item">
+            <p class="tl-when">Fase 03 — Ferramental</p>
+            <h3>Transformar análise em produto</h3>
+            <p>C++ e Rust para o que precisa ser rápido e seguro; Ruby e Shell para o que precisa ser repetível em escala.</p>
+            <div class="tl-metrics"><span>C++</span><span>Rust</span><span>Automação</span></div>
+          </article>
+
+          <article class="tl-item">
+            <p class="tl-when">Fase 04 — Presente</p>
+            <h3>Segurança de memória como especialidade</h3>
+            <p>Foco nas classes de falha que vivem entre intenção e layout: corrupção de memória, limites e invariantes violados.</p>
+            <div class="tl-metrics"><span>Memória</span><span>Auditoria</span><span>Pesquisa</span></div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-head">
+          <p class="eyebrow">Método</p>
+          <h2 class="display" data-reveal>Quatro <em>movimentos</em></h2>
+          <p class="lede" data-reveal>Aplicados a cada alvo, do primeiro contato à entrega.</p>
+        </div>
+
+        <div class="pillars">
+          <div class="pillar" data-reveal>
+            <span class="mono-label">01</span>
+            <h3>Reconhecimento</h3>
+            <p>Antes de qualquer hipótese: mapear formato, superfície de entrada e limites. Observar sem interferir.</p>
+          </div>
+          <div class="pillar" data-reveal>
+            <span class="mono-label">02</span>
+            <h3>Instrumentação</h3>
+            <p>Reduzir observação a dados confiáveis. Se não é mensurável, é opinião.</p>
+          </div>
+          <div class="pillar" data-reveal>
+            <span class="mono-label">03</span>
+            <h3>Reprodução</h3>
+            <p>Congelar o cenário até a falha ocorrer sempre, no mesmo ponto, sob as mesmas condições.</p>
+          </div>
+          <div class="pillar" data-reveal>
+            <span class="mono-label">04</span>
+            <h3>Correção verificada</h3>
+            <p>Modificar o mínimo necessário e provar o efeito — com teste que falha antes e passa depois.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-head">
+          <p class="eyebrow">Princípios</p>
+          <h2 class="display" data-reveal>Regras que<br><em>não negocio</em></h2>
+        </div>
+
+        <div class="archive">
+          <article class="archive-card" data-reveal>
+            <p class="mono-label">01</p>
+            <h3>Evidência acima de intuição</h3>
+            <p>Uma hipótese sem medição é uma aposta. O sistema sempre tem a última palavra.</p>
+          </article>
+          <article class="archive-card" data-reveal>
+            <p class="mono-label">02</p>
+            <h3>Menor intervenção possível</h3>
+            <p>Mudanças pequenas e rastreáveis superam reescritas que ninguém consegue auditar.</p>
+          </article>
+          <article class="archive-card" data-reveal>
+            <p class="mono-label">03</p>
+            <h3>Explicar para consolidar</h3>
+            <p>Documentar o achado é o teste final de que ele foi realmente entendido.</p>
+          </article>
+        </div>
+      </section>
+
+      <footer class="site-foot">
+        <span>Jordan — MMXXVI</span>
+        <span class="foot-quote">And you don&apos;t seem to understand</span>
+        <a href="https://github.com/bgszk" target="_blank" rel="noopener noreferrer">GitHub</a>
+      </footer>
+    </main>
+  </div>
+
+  <script src="background.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

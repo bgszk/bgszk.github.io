@@ -1,0 +1,25 @@
+# Base44 development environment.
+#
+# The portfolio is a static site (plain HTML/CSS/JS, no build step), so the dev
+# server is nginx serving the bind-mounted repo directly. Editing any file is
+# reflected on the next refresh — there is no bundle to rebuild.
+#
+# Run with:  docker compose -f docker-compose.base44.yml up -d
+
+services:
+  web:
+    image: nginx:1.27-alpine
+    container_name: portfolio-web
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./:/usr/share/nginx/html:ro
+      # full main config: workers run as root so the 0700 repo mount is readable
+      - ./nginx.base44.conf:/etc/nginx/nginx.conf:ro
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q --spider http://127.0.0.1:3000/ || exit 1"]
+      interval: 10s
+      timeout: 3s
+      retries: 6
+      start_period: 5s
+    restart: on-failure

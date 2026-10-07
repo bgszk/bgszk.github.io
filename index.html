@@ -3,69 +3,270 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Jordan</title>
+  <title>Jordan — Sistemas de Baixo Nível &amp; Engenharia Reversa</title>
+  <meta name="description" content="Portfólio de Jordan: sistemas de baixo nível, engenharia reversa, segurança de memória e ferramental em C, C++, Rust, Ruby e Assembly.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
-<body class="page-home">
+<body>
   <canvas id="bg-canvas" aria-hidden="true"></canvas>
+  <div class="field-scrim" aria-hidden="true"></div>
 
   <div class="site-shell">
-    <header class="nav">
-      <a class="logo" href="index.html">Jordan</a>
-
-      <nav class="menu">
-        <a href="index.html" class="active">Home</a>
-        <a href="game.html">Game</a>
-        <a href="codes.html">Skills</a>
-        <a href="https://github.com/bgszk" target="_blank" rel="noopener noreferrer">GitHub</a>
+    <header class="topbar">
+      <a class="brand" href="index.html">Jordan<span class="brand-mark">/</span></a>
+      <nav class="tabs" aria-label="Navegação principal">
+        <a href="index.html" class="is-active" aria-current="page"><span>01</span>Início</a>
+        <a href="projetos.html"><span>02</span>Projetos</a>
+        <a href="processo.html"><span>03</span>Processo</a>
+        <a href="codes.html"><span>04</span>Stack</a>
+        <a href="game.html"><span>05</span>Game</a>
+        <a href="contato.html"><span>06</span>Contato</a>
       </nav>
     </header>
 
-    <main class="hero">
-      <section class="panel hero-panel">
-        <div class="avatar-wrap">
-          <img
-            class="avatar"
-            src="https://i.pinimg.com/1200x/7e/27/65/7e2765aed9dd7817f7c7486f8d772abe.jpg"
-            alt="Avatar"
-          >
+    <main>
+      <h1 class="sr-only">Jordan — engenharia de sistemas de baixo nível e engenharia reversa</h1>
+
+      <!-- ============ HERO MONOLITH ============ -->
+      <section class="hero">
+        <div class="hero-top">
+          <p class="eyebrow">Sistemas · Engenharia reversa · Memória</p>
+          <p class="hero-role">
+            Escrevo software onde o controle é total: da syscall ao silício.
+          </p>
         </div>
 
-        <h1>Present Day, Present Time.</h1>
+        <div class="hero-stage">
+          <div class="hero-marquee" aria-hidden="true">
+            <div class="marquee-track">
+              <span>JORDAN</span><span>JORDAN</span><span>JORDAN</span><span>JORDAN</span>
+            </div>
+          </div>
 
-        <p class="desc">
-          S.I.<br>
-          Baixo nível.<br>
-          Engenharia reversa.<br>
-          Exploração de sistemas.
-        </p>
+          <div class="hero-portrait">
+            <img
+              src="assets/retrato.jpg"
+              alt="Retrato de Jordan"
+              width="900" height="1200"
+              onerror="this.onerror=null;this.src='assets/retrato-placeholder.svg';">
+          </div>
 
-        <div class="langs">
-          <span>C</span>
-          <span>C++</span>
-          <span>C#</span>
-          <span>Rust</span>
-          <span>Ruby</span>
-          <span>Shell</span>
-          <span>Assembly</span>
+          <div class="hero-marquee hero-marquee--front" aria-hidden="true">
+            <div class="marquee-track">
+              <span>JORDAN</span><span>JORDAN</span><span>JORDAN</span><span>JORDAN</span>
+            </div>
+          </div>
         </div>
 
-        <button id="musicBtn" class="primary-btn" type="button">Iniciar música</button>
+        <div class="hero-bottom">
+          <div class="hero-stack">
+            <span>C</span>
+            <span>C++</span>
+            <span>C#</span>
+            <span>Rust</span>
+            <span>Ruby</span>
+            <span>Shell</span>
+            <span>Assembly</span>
+          </div>
+
+          <div class="hero-actions">
+            <button id="musicBtn" class="btn btn--primary" type="button">Iniciar trilha</button>
+            <a class="btn" href="projetos.html">Ver projetos</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ PROJECT MATRIX ============ -->
+      <section class="section matrix" id="projetos">
+        <div class="section-head">
+          <p class="eyebrow">02 — Prova técnica</p>
+          <h2 class="display" data-reveal>Arquitetura<br>em <em>execução</em></h2>
+          <p class="lede" data-reveal>
+            Ferramental construído na fronteira entre o binário e a intenção:
+            cada peça existe para tornar um sistema opaco em algo legível.
+          </p>
+        </div>
+
+        <p class="matrix-hint"><i></i>Arraste ou role para percorrer</p>
+
+        <div class="matrix-track">
+          <article class="case-card" data-index="01" tabindex="0">
+            <div class="case-top">
+              <p class="mono-label">Ferramental</p>
+              <div class="case-tags"><span>C</span><span>Capstone</span><span>ELF · PE</span></div>
+            </div>
+            <div class="case-body">
+              <h3>Dissecador de binários</h3>
+              <p>Motor de análise estática que reconstrói fluxo de controle, resolve imports e expõe a estrutura real do executável.</p>
+            </div>
+            <div class="case-glass">
+              <dl>
+                <div><dt>Problema</dt><dd>Binários sem símbolos tornam auditoria e depuração lentas e manuais.</dd></div>
+                <div><dt>Abordagem</dt><dd>Parser próprio de cabeçalhos e seções, desmontagem linear com resolução de saltos.</dd></div>
+                <div><dt>Núcleo</dt><dd>Leitura de arquivo por mmap, tabelas de relocação e heurísticas de função.</dd></div>
+              </dl>
+            </div>
+          </article>
+
+          <article class="case-card" data-index="02" tabindex="0">
+            <div class="case-top">
+              <p class="mono-label">Runtime</p>
+              <div class="case-tags"><span>C++</span><span>Hooking</span><span>Tracing</span></div>
+            </div>
+            <div class="case-body">
+              <h3>Kit de introspecção</h3>
+              <p>Camada de instrumentação que observa chamadas em tempo real sem recompilar o alvo.</p>
+            </div>
+            <div class="case-glass">
+              <dl>
+                <div><dt>Problema</dt><dd>Comportamento só se revela em execução — e o alvo não pode ser modificado.</dd></div>
+                <div><dt>Abordagem</dt><dd>Interceptação de chamadas com ponteiros gerenciados e despacho por assinatura.</dd></div>
+                <div><dt>Núcleo</dt><dd>C++ moderno, RAII sobre recursos nativos, registro tipado de rotinas.</dd></div>
+              </dl>
+            </div>
+          </article>
+
+          <article class="case-card" data-index="03" tabindex="0">
+            <div class="case-top">
+              <p class="mono-label">Sistemas</p>
+              <div class="case-tags"><span>Rust</span><span>FFI</span><span>Unsafe</span></div>
+            </div>
+            <div class="case-body">
+              <h3>Mapeador de memória</h3>
+              <p>Modelagem de regiões mapeadas e permissões para responder onde um endereço vive — e o que ele pode fazer ali.</p>
+            </div>
+            <div class="case-glass">
+              <dl>
+                <div><dt>Problema</dt><dd>Endereços sem contexto de região escondem falhas de permissão e de layout.</dd></div>
+                <div><dt>Abordagem</dt><dd>Estrutura de intervalos com busca logarítmica e verificação de limites.</dd></div>
+                <div><dt>Núcleo</dt><dd>Ownership do Rust nas bordas, blocos unsafe isolados e documentados.</dd></div>
+              </dl>
+            </div>
+          </article>
+
+          <article class="case-card" data-index="04" tabindex="0">
+            <div class="case-top">
+              <p class="mono-label">Automação</p>
+              <div class="case-tags"><span>Ruby</span><span>Shell</span><span>POSIX</span></div>
+            </div>
+            <div class="case-body">
+              <h3>Suíte forense de linha de comando</h3>
+              <p>Pipelines que varrem artefatos, extraem strings significativas e produzem relatórios auditáveis.</p>
+            </div>
+            <div class="case-glass">
+              <dl>
+                <div><dt>Problema</dt><dd>Triagem manual não escala e não deixa rastro reproduzível.</dd></div>
+                <div><dt>Abordagem</dt><dd>Coletores idempotentes, saída determinística e relatório versionável.</dd></div>
+                <div><dt>Núcleo</dt><dd>Ruby para parsing estruturado, Shell com <code>set -euo pipefail</code> para orquestração.</dd></div>
+              </dl>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- ============ TIMELINE ============ -->
+      <section class="section" id="processo">
+        <div class="section-head">
+          <p class="eyebrow">03 — Trajetória</p>
+          <h2 class="display" data-reveal>Profundidade<br><em>acumulada</em></h2>
+          <p class="lede" data-reveal>
+            Um caminho que desce camada por camada: da linguagem de alto nível até a instrução.
+          </p>
+        </div>
+
+        <div class="timeline">
+          <article class="tl-item">
+            <p class="tl-when">Fase 01 — Fundamentos</p>
+            <h3>Máquina antes de abstração</h3>
+            <p>C, Assembly e o funcionamento real de processos, pilha, heap e chamadas de sistema. A base que sustenta todo o resto.</p>
+            <div class="tl-metrics"><span>C</span><span>Assembly</span><span>POSIX</span></div>
+          </article>
+
+          <article class="tl-item">
+            <p class="tl-when">Fase 02 — Reversão</p>
+            <h3>Ler o que ninguém documentou</h3>
+            <p>Análise de binários sem símbolos, reconstrução de protocolos e leitura de estruturas a partir do comportamento observado.</p>
+            <div class="tl-metrics"><span>Desmontagem</span><span>Protocolos</span><span>Debugging</span></div>
+          </article>
+
+          <article class="tl-item">
+            <p class="tl-when">Fase 03 — Ferramental</p>
+            <h3>Transformar análise em produto</h3>
+            <p>C++ e Rust para o que precisa ser rápido e seguro; Ruby e Shell para o que precisa ser repetível em escala.</p>
+            <div class="tl-metrics"><span>C++</span><span>Rust</span><span>Automação</span></div>
+          </article>
+
+          <article class="tl-item">
+            <p class="tl-when">Fase 04 — Presente</p>
+            <h3>Segurança de memória como especialidade</h3>
+            <p>Foco em classes de falha que vivem na fronteira entre intenção e layout: corrupção de memória, limites e invariantes.</p>
+            <div class="tl-metrics"><span>Memória</span><span>Auditoria</span><span>Pesquisa</span></div>
+          </article>
+        </div>
+      </section>
+
+      <!-- ============ CONTACT TERMINAL ============ -->
+      <section class="terminal" id="contato">
+        <div class="terminal-inner">
+          <div class="terminal-left">
+            <p class="eyebrow eyebrow--block">06 — Conexão</p>
+            <h2 class="display" data-reveal>Vamos falar de<br>sistemas <em>reais</em></h2>
+            <p data-reveal>
+              Projetos de segurança, análise de binários ou uma base de código que
+              precisa descer de nível.
+            </p>
+
+            <div class="magnetic-list">
+              <a class="magnetic" data-magnetic href="mailto:contato@example.com">
+                contato@example.com <b>E-mail</b>
+              </a>
+              <a class="magnetic" data-magnetic href="https://github.com/bgszk" target="_blank" rel="noopener noreferrer">
+                github.com/bgszk <b>GitHub</b>
+              </a>
+              <a class="magnetic" data-magnetic href="https://www.linkedin.com/" target="_blank" rel="noopener noreferrer">
+                linkedin.com <b>LinkedIn</b>
+              </a>
+              <a class="magnetic" data-magnetic href="https://wa.me/" target="_blank" rel="noopener noreferrer">
+                WhatsApp direto <b>Mensagem</b>
+              </a>
+            </div>
+          </div>
+
+          <form class="contact-form" data-mailto="contato@example.com">
+            <div class="field">
+              <label for="c-name">Nome</label>
+              <input id="c-name" name="name" type="text" placeholder="Como devo te chamar" autocomplete="name" required>
+            </div>
+            <div class="field">
+              <label for="c-email">E-mail</label>
+              <input id="c-email" name="email" type="email" placeholder="onde respondo" autocomplete="email" required>
+            </div>
+            <div class="field">
+              <label for="c-message">Mensagem</label>
+              <textarea id="c-message" name="message" rows="4" placeholder="Contexto, alvo, prazo." required></textarea>
+            </div>
+            <button class="btn btn--primary" type="submit">Abrir rascunho</button>
+            <p class="form-note">Abre o seu cliente de e-mail com a mensagem pronta — sem servidor no meio.</p>
+          </form>
+        </div>
+
+        <footer class="site-foot">
+          <span>Jordan — MMXXVI</span>
+          <span class="foot-quote">And you don&apos;t seem to understand</span>
+          <a href="https://github.com/bgszk" target="_blank" rel="noopener noreferrer">GitHub</a>
+        </footer>
       </section>
     </main>
-
-    <footer class="footer">
-      <p>And you don&apos;t seem to understand</p>
-    </footer>
   </div>
 
-  <audio id="bgMusic" loop>
+  <audio id="bgMusic" loop preload="none">
     <source src="lain.mp3" type="audio/mpeg">
   </audio>
 
+  <script src="background.js"></script>
   <script src="script.js"></script>
 </body>
 </html>

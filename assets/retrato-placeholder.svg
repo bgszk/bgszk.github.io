@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 1200" role="img" aria-label="Espaço reservado para o retrato">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0.4" y2="1">
+      <stop offset="0" stop-color="#1b1b20"/>
+      <stop offset="0.55" stop-color="#121216"/>
+      <stop offset="1" stop-color="#0a0a0b"/>
+    </linearGradient>
+    <linearGradient id="body" x1="0.2" y1="0" x2="0.9" y2="1">
+      <stop offset="0" stop-color="#3a3a41"/>
+      <stop offset="0.5" stop-color="#232329"/>
+      <stop offset="1" stop-color="#141418"/>
+    </linearGradient>
+    <linearGradient id="rim" x1="0" y1="0" x2="1" y2="0.6">
+      <stop offset="0.62" stop-color="#f2f2f2" stop-opacity="0"/>
+      <stop offset="0.78" stop-color="#f2f2f2" stop-opacity="0.32"/>
+      <stop offset="1" stop-color="#f2f2f2" stop-opacity="0"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.28" r="0.6">
+      <stop offset="0" stop-color="#2e5bff" stop-opacity="0.28"/>
+      <stop offset="1" stop-color="#2e5bff" stop-opacity="0"/>
+    </radialGradient>
+    <clipPath id="frame">
+      <rect width="900" height="1200"/>
+    </clipPath>
+  </defs>
+
+  <g clip-path="url(#frame)">
+    <rect width="900" height="1200" fill="url(#bg)"/>
+    <rect width="900" height="1200" fill="url(#glow)"/>
+
+    <!-- shoulders + torso -->
+    <path d="M450 640c-150 0-262 84-292 210-14 60-20 142-22 350h628c-2-208-8-290-22-350-30-126-142-210-292-210z" fill="url(#body)"/>
+    <path d="M450 640c-150 0-262 84-292 210-14 60-20 142-22 350h628c-2-208-8-290-22-350-30-126-142-210-292-210z" fill="url(#rim)"/>
+
+    <!-- head -->
+    <ellipse cx="450" cy="410" rx="126" ry="164" fill="url(#body)"/>
+    <path d="M324 410a126 164 0 0 1 126-164v328a126 164 0 0 1-126-164z" fill="#1d1d23"/>
+    <ellipse cx="450" cy="410" rx="126" ry="164" fill="url(#rim)"/>
+
+    <!-- neck -->
+    <rect x="404" y="540" width="92" height="120" rx="34" fill="#1a1a1f"/>
+
+    <!-- rim light on the right contour -->
+    <path d="M576 360c34 30 52 76 52 130 0 54-18 100-52 130" fill="none" stroke="#f2f2f2" stroke-opacity="0.22" stroke-width="2"/>
+    <path d="M742 1000c-24-120-58-186-120-232" fill="none" stroke="#f2f2f2" stroke-opacity="0.16" stroke-width="2"/>
+
+    <text x="450" y="1128" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="20" letter-spacing="7" fill="#666666">SUBSTITUA PELA SUA FOTO</text>
+    <text x="450" y="1162" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="17" letter-spacing="4" fill="#3d3d42">assets/retrato.jpg</text>
+  </g>
+</svg>
