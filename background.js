@@ -206,12 +206,12 @@
         const h = field[gy * width + gx];
         const i = (gx << 2);
 
-        // obsidian body, lifted by cobalt in the crests of the surface
+        // obsidian body, lifted into dark violet in the crests of the surface
         const lift = Math.pow(Math.max(0, h - 0.42), 1.5);
-        const base = 9 + h * 13;
-        const blue = 12 + lift * 96;
-        const green = 10 + lift * 34;
-        const red = 8 + lift * 18;
+        const base = 10 + h * 14;
+        const blue = 16 + lift * 104;
+        const green = 7 + lift * 20;
+        const red = 9 + lift * 54;
 
         data[i] = red;
         data[i + 1] = base * 0.72 + green;
@@ -296,7 +296,7 @@
         }
       }
 
-      ctx.strokeStyle = highlight ? "rgba(46,91,255,0.5)" : "rgba(242,242,242,0.055)";
+      ctx.strokeStyle = highlight ? "rgba(139,92,246,0.52)" : "rgba(242,242,242,0.055)";
       ctx.lineWidth = highlight ? 1.1 : 0.7;
       ctx.stroke();
     }

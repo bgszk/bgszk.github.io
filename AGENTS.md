@@ -62,9 +62,13 @@ marquee stops, and reveals resolve immediately.
 
 ### Cross-file contracts (easy to break)
 
-- The hero name is two identical `.hero-marquee` layers: one behind the portrait,
-  one in front clipped with `clip-path`. Both must keep the **same animation
-  duration** or the front slice desynchronises from the layer behind it.
+- The hero name is two identical `.hero-marquee` layers: a **solid, readable band in
+  front** of the portrait, and a faint outlined echo behind it. The front band is
+  deliberately *not* clipped — an earlier revision clipped it to a slice, which made
+  the word unreadable, so do not reintroduce a `clip-path` there. Legibility now
+  depends on the `.hero-stage::after` scrim sitting between the photograph (z-index 2)
+  and the letters (z-index 3); keep that order. Both layers must share the same
+  animation duration or they desynchronise.
 - `script.js` looks up `.timeline` and injects `.timeline-progress`; the CSS
   expects `.timeline::before` to draw the rail.
 - `script.js` calls `window.KineticField.setTurbulence()` on portrait hover — the
@@ -74,10 +78,17 @@ marquee stops, and reveals resolve immediately.
 
 ## Placeholder content to replace (not code defects)
 
-- `assets/retrato.jpg` — the real portrait. Drop the file in and it is picked up
-  automatically; until then `onerror` falls back to
-  `assets/retrato-placeholder.svg`. Portrait treatment is `grayscale(1)` with a
-  radial mask, so any well-lit photo blends in without pre-processing.
+- Palette: `--accent` (#8b5cf6) is the *readable* violet for text, lines and focus
+  rings on obsidian (≈4.6:1). `--accent-deep` (#5b21b6) is the dark violet for
+  **fills that carry white text** (buttons, cursor badge, selection), where it reaches
+  ≈9:1. Don't swap them: the dark purple fails as text on obsidian, and the light one
+  fails as a fill under white text.
+- `assets/retrato.jpg` — the real portrait, now tracked in the repo. The `onerror`
+  fallback to `assets/retrato-placeholder.svg` is only a safety net for a missing
+  file. Treatment: `grayscale(1)`, a radial mask that fades the edges into the page,
+  and a dark-violet grade (`.hero-portrait::before` with `mix-blend-mode: color`) so
+  the photo joins the palette instead of fighting it. Swapping the file needs no
+  other change.
 - Contact channels in `index.html` / `contato.html`: `contato@example.com`,
   `https://wa.me/`, `https://www.linkedin.com/` (GitHub already points at the real
   profile). Replace the `mailto:` href **and** the form's `data-mailto`.

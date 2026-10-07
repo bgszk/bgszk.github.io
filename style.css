@@ -1,6 +1,6 @@
 /* ============================================================
    JORDAN — ARCHITECTURAL SOPHISTICATION
-   Obsidian & Silver Volt
+   Obsidian & Violet Volt
    ============================================================ */
 
 :root {
@@ -8,8 +8,9 @@
   --obsidian-2: #101013;
   --obsidian-3: #17171b;
   --alabaster: #f2f2f2;
-  --cobalt: #2e5bff;
-  --cobalt-dim: rgba(46, 91, 255, 0.16);
+  --accent: #8b5cf6;
+  --accent-deep: #5b21b6;
+  --accent-dim: rgba(139, 92, 246, 0.16);
   --slate: #666666;
   --slate-2: #8d8d8d;
   --line: rgba(242, 242, 242, 0.1);
@@ -64,12 +65,12 @@ a {
 }
 
 ::selection {
-  background: var(--cobalt);
+  background: var(--accent-deep);
   color: #fff;
 }
 
 :focus-visible {
-  outline: 2px solid var(--cobalt);
+  outline: 2px solid var(--accent);
   outline-offset: 3px;
   border-radius: 2px;
 }
@@ -102,7 +103,7 @@ a {
   z-index: 0;
   pointer-events: none;
   background:
-    radial-gradient(120% 90% at 50% -10%, rgba(46, 91, 255, 0.08), transparent 62%),
+    radial-gradient(120% 90% at 50% -10%, rgba(139, 92, 246, 0.08), transparent 62%),
     linear-gradient(180deg, rgba(10, 10, 11, 0.35) 0%, rgba(10, 10, 11, 0.82) 68%, var(--obsidian) 100%);
 }
 
@@ -143,7 +144,7 @@ a {
 }
 
 .brand-mark {
-  color: var(--cobalt);
+  color: var(--accent);
   font-family: var(--sans);
   font-size: 0.8rem;
   transform: translateY(-6px);
@@ -181,12 +182,12 @@ a {
 
 .tabs a:hover span,
 .tabs a.is-active span {
-  color: var(--cobalt);
+  color: var(--accent);
 }
 
 .tabs a.is-active {
   color: var(--alabaster);
-  border-bottom-color: var(--cobalt);
+  border-bottom-color: var(--accent);
 }
 
 /* ---------- typography ---------- */
@@ -206,7 +207,7 @@ a {
   content: "";
   width: 34px;
   height: 1px;
-  background: var(--cobalt);
+  background: var(--accent);
 }
 
 .eyebrow--block {
@@ -224,7 +225,7 @@ a {
 
 .display em {
   font-style: italic;
-  color: var(--cobalt);
+  color: var(--accent);
 }
 
 .lede {
@@ -315,12 +316,26 @@ a {
   min-height: 46svh;
 }
 
-/* monumental name, split into a layer behind and a slice in front */
+/* the name: one solid band in front of the portrait. A scrim sits between the
+   photograph and the letters so the name is always readable, and a faint
+   outlined echo of the same word passes behind the portrait for depth. */
+.hero-stage::after {
+  content: "";
+  position: absolute;
+  left: calc(var(--gutter) * -1);
+  right: calc(var(--gutter) * -1);
+  bottom: 0;
+  height: 48%;
+  background: linear-gradient(180deg, transparent, rgba(10, 10, 11, 0.66) 42%, rgba(10, 10, 11, 0.94));
+  pointer-events: none;
+  z-index: 2;
+}
+
 .hero-marquee {
   position: absolute;
   left: calc(var(--gutter) * -1);
   right: calc(var(--gutter) * -1);
-  top: 50%;
+  top: 30%;
   transform: translateY(-50%);
   overflow: hidden;
   pointer-events: none;
@@ -328,35 +343,38 @@ a {
 }
 
 .hero-marquee--front {
+  top: auto;
+  bottom: 3%;
+  transform: none;
   z-index: 3;
-  clip-path: inset(56% 0 0 0);
 }
 
 .marquee-track {
   display: flex;
   width: max-content;
   gap: 0.22em;
-  animation: marquee 28s linear infinite;
+  animation: marquee 34s linear infinite;
 }
 
 .hero-marquee--front .marquee-track {
-  animation-duration: 28s;
+  animation-duration: 34s;
 }
 
 .marquee-track span {
   font-family: var(--serif);
-  font-size: clamp(4.6rem, 17vw, 15rem);
-  font-weight: 300;
-  line-height: 0.86;
-  letter-spacing: -0.02em;
+  font-size: clamp(3.4rem, 13vw, 11rem);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: -0.01em;
   white-space: nowrap;
   color: transparent;
-  -webkit-text-stroke: 1px rgba(242, 242, 242, 0.3);
+  -webkit-text-stroke: 1px rgba(242, 242, 242, 0.26);
 }
 
 .hero-marquee--front .marquee-track span {
   color: var(--alabaster);
   -webkit-text-stroke: 0;
+  text-shadow: 0 10px 40px rgba(10, 10, 11, 0.95);
 }
 
 @keyframes marquee {
@@ -368,9 +386,23 @@ a {
 .hero-portrait {
   position: relative;
   z-index: 2;
-  width: clamp(240px, 32vw, 430px);
+  width: clamp(240px, 30vw, 400px);
   aspect-ratio: 3 / 4;
   transition: transform 0.8s var(--ease), filter 0.8s var(--ease);
+}
+
+/* dark-violet grade: hue and saturation come from the palette, luminance stays
+   the photograph's own, so it reads as one image rather than a purple wash */
+.hero-portrait::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(168deg, rgba(70, 27, 138, 0.72), rgba(26, 10, 52, 0.42));
+  mix-blend-mode: color;
+  pointer-events: none;
+  -webkit-mask-image: radial-gradient(112% 96% at 50% 34%, #000 52%, rgba(0, 0, 0, 0.42) 76%, transparent 97%);
+  mask-image: radial-gradient(112% 96% at 50% 34%, #000 52%, rgba(0, 0, 0, 0.42) 76%, transparent 97%);
 }
 
 .hero-portrait::after {
@@ -378,7 +410,7 @@ a {
   position: absolute;
   inset: auto 12% -6% 12%;
   height: 34%;
-  background: radial-gradient(60% 100% at 50% 0%, rgba(46, 91, 255, 0.22), transparent 70%);
+  background: radial-gradient(60% 100% at 50% 0%, rgba(139, 92, 246, 0.26), transparent 70%);
   filter: blur(26px);
   z-index: -1;
 }
@@ -387,7 +419,7 @@ a {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center 16%;
+  object-position: center 30%;
   filter: grayscale(1) contrast(1.1);
   -webkit-mask-image: radial-gradient(112% 96% at 50% 34%, #000 52%, rgba(0, 0, 0, 0.42) 76%, transparent 97%);
   mask-image: radial-gradient(112% 96% at 50% 34%, #000 52%, rgba(0, 0, 0, 0.42) 76%, transparent 97%);
@@ -424,7 +456,7 @@ a {
 }
 
 .hero-stack span:hover {
-  border-color: var(--cobalt);
+  border-color: var(--accent);
   color: var(--alabaster);
 }
 
@@ -455,19 +487,19 @@ a {
 }
 
 .btn:hover {
-  border-color: var(--cobalt);
+  border-color: var(--accent);
   transform: translateY(-2px);
 }
 
 .btn--primary {
-  background: var(--cobalt);
-  border-color: var(--cobalt);
+  background: var(--accent-deep);
+  border-color: var(--accent-deep);
   color: #fff;
 }
 
 .btn--primary:hover {
-  background: #1f49e0;
-  border-color: #1f49e0;
+  background: #4c1d95;
+  border-color: #4c1d95;
 }
 
 .btn--ghost {
@@ -505,7 +537,7 @@ a {
   display: block;
   width: 46px;
   height: 1px;
-  background: linear-gradient(90deg, var(--cobalt), transparent);
+  background: linear-gradient(90deg, var(--accent), transparent);
 }
 
 .matrix-track {
@@ -540,7 +572,7 @@ a {
   overflow: hidden;
   scroll-snap-align: center;
   background:
-    radial-gradient(120% 100% at 82% 12%, rgba(46, 91, 255, 0.14), transparent 58%),
+    radial-gradient(120% 100% at 82% 12%, rgba(139, 92, 246, 0.14), transparent 58%),
     linear-gradient(160deg, var(--obsidian-2), var(--obsidian));
   transition: border-color 0.5s var(--ease), transform 0.6s var(--ease);
 }
@@ -586,7 +618,7 @@ a {
 
 .case-tags span + span::before {
   content: "· ";
-  color: var(--cobalt);
+  color: var(--accent);
 }
 
 .case-body {
@@ -638,7 +670,7 @@ a {
   font-size: 0.66rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--cobalt);
+  color: var(--accent);
   margin-bottom: 6px;
 }
 
@@ -660,7 +692,7 @@ a {
   width: 108px;
   height: 108px;
   border-radius: 999px;
-  background: var(--cobalt);
+  background: var(--accent-deep);
   color: #fff;
   font-family: var(--mono);
   font-size: 0.68rem;
@@ -702,8 +734,8 @@ a {
 
 .timeline-progress {
   height: 0;
-  background: linear-gradient(180deg, var(--cobalt), rgba(46, 91, 255, 0.15));
-  box-shadow: 0 0 18px rgba(46, 91, 255, 0.55);
+  background: linear-gradient(180deg, var(--accent), rgba(139, 92, 246, 0.15));
+  box-shadow: 0 0 18px rgba(139, 92, 246, 0.55);
   transition: height 0.15s linear;
 }
 
@@ -730,9 +762,9 @@ a {
 }
 
 .tl-item.is-in::before {
-  background: var(--cobalt);
-  border-color: var(--cobalt);
-  box-shadow: 0 0 16px rgba(46, 91, 255, 0.7);
+  background: var(--accent);
+  border-color: var(--accent);
+  box-shadow: 0 0 16px rgba(139, 92, 246, 0.7);
 }
 
 .tl-when {
@@ -772,7 +804,7 @@ a {
   text-transform: uppercase;
   color: var(--slate);
   padding-left: 12px;
-  border-left: 1px solid var(--cobalt);
+  border-left: 1px solid var(--accent);
 }
 
 /* ============================================================
@@ -814,11 +846,11 @@ a {
 
 .archive-card:hover {
   transform: translateY(-6px);
-  border-color: var(--cobalt);
+  border-color: var(--accent);
 }
 
 .archive-card .mono-label {
-  color: var(--cobalt);
+  color: var(--accent);
 }
 
 .archive-card h3 {
@@ -853,7 +885,7 @@ a {
 
 .archive-card li + li::before {
   content: "· ";
-  color: var(--cobalt);
+  color: var(--accent);
 }
 
 /* ---------- capability columns ---------- */
@@ -870,7 +902,7 @@ a {
 }
 
 .pillar .mono-label {
-  color: var(--cobalt);
+  color: var(--accent);
   display: block;
   margin-bottom: 14px;
 }
@@ -939,7 +971,7 @@ a {
 
 .magnetic:hover {
   color: var(--alabaster);
-  border-color: var(--cobalt);
+  border-color: var(--accent);
 }
 
 .magnetic b {
@@ -994,11 +1026,11 @@ a {
 .field input:focus,
 .field textarea:focus {
   outline: none;
-  border-bottom-color: var(--cobalt);
+  border-bottom-color: var(--accent);
 }
 
 .field:focus-within label {
-  color: var(--cobalt);
+  color: var(--accent);
 }
 
 .form-note {
@@ -1026,7 +1058,7 @@ a {
 }
 
 .site-foot a:hover {
-  color: var(--cobalt);
+  color: var(--accent);
 }
 
 .foot-quote {
@@ -1126,8 +1158,8 @@ a {
 
 .copyBtn:hover {
   color: #fff;
-  border-color: var(--cobalt);
-  background: var(--cobalt-dim);
+  border-color: var(--accent);
+  background: var(--accent-dim);
 }
 
 /* ============================================================
