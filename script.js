@@ -1,120 +1,251 @@
-const canvas = document.getElementById("bg-canvas");
+/* ============================================================
+   JORDAN — interaction layer
+   ============================================================ */
 
-if (canvas) {
-  const ctx = canvas.getContext("2d");
+(function () {
+  const reduceMotion =
+    typeof window.matchMedia === "function" &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  let width = 0;
-  let height = 0;
-  const particles = [];
-  const particleCount = 90;
+  /* ---------- scroll reveal ---------- */
 
-  function resizeCanvas() {
-    width = window.innerWidth;
-    height = window.innerHeight;
-    canvas.width = width * window.devicePixelRatio;
-    canvas.height = height * window.devicePixelRatio;
-    canvas.style.width = `${width}px`;
-    canvas.style.height = `${height}px`;
-    ctx.setTransform(window.devicePixelRatio, 0, 0, window.devicePixelRatio, 0, 0);
-  }
+  const revealTargets = document.querySelectorAll("[data-reveal], .tl-item");
 
-  function createParticle() {
-    const palette = [
-      "rgba(159,139,255,0.9)",
-      "rgba(122,92,255,0.9)",
-      "rgba(98,185,255,0.85)",
-      "rgba(213,133,255,0.8)"
-    ];
-
-    return {
-      x: Math.random() * width,
-      y: Math.random() * height,
-      r: Math.random() * 1.8 + 0.6,
-      vx: (Math.random() - 0.5) * 0.18,
-      vy: (Math.random() - 0.5) * 0.18,
-      color: palette[Math.floor(Math.random() * palette.length)]
-    };
-  }
-
-  function initParticles() {
-    particles.length = 0;
-    for (let i = 0; i < particleCount; i += 1) {
-      particles.push(createParticle());
-    }
-  }
-
-  function drawBackground() {
-    const gradient = ctx.createRadialGradient(
-      width * 0.5,
-      height * 0.3,
-      0,
-      width * 0.5,
-      height * 0.5,
-      Math.max(width, height) * 0.85
+  if (reduceMotion || !("IntersectionObserver" in window)) {
+    revealTargets.forEach((el) => el.classList.add("is-in"));
+  } else {
+    const revealObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-in");
+            revealObserver.unobserve(entry.target);
+          }
+        });
+      },
+      { rootMargin: "0px 0px -12% 0px", threshold: 0.12 }
     );
 
-    gradient.addColorStop(0, "#17142b");
-    gradient.addColorStop(0.45, "#0c0c17");
-    gradient.addColorStop(1, "#050507");
-
-    ctx.fillStyle = gradient;
-    ctx.fillRect(0, 0, width, height);
+    revealTargets.forEach((el) => revealObserver.observe(el));
   }
 
-  function animate() {
-    drawBackground();
+  /* ---------- timeline progress line ---------- */
 
-    for (const p of particles) {
-      p.x += p.vx;
-      p.y += p.vy;
+  const timeline = document.querySelector(".timeline");
 
-      if (p.x < -10) p.x = width + 10;
-      if (p.x > width + 10) p.x = -10;
-      if (p.y < -10) p.y = height + 10;
-      if (p.y > height + 10) p.y = -10;
+  if (timeline) {
+    const progress = document.createElement("span");
+    progress.className = "timeline-progress";
+    timeline.appendChild(progress);
 
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-      ctx.fillStyle = p.color;
-      ctx.shadowBlur = 14;
-      ctx.shadowColor = p.color;
-      ctx.fill();
+    const paintProgress = () => {
+      const rect = timeline.getBoundingClientRect();
+      const anchor = window.innerHeight * 0.62;
+      const travelled = anchor - rect.top;
+      const ratio = Math.min(1, Math.max(0, travelled / rect.height));
+      progress.style.height = `${ratio * 100}%`;
+    };
+
+    paintProgress();
+    window.addEventListener("scroll", paintProgress, { passive: true });
+    window.addEventListener("resize", paintProgress);
+    if (reduceMotion) {
+      progress.style.height = "100%";
     }
-
-    ctx.shadowBlur = 0;
-    requestAnimationFrame(animate);
   }
 
-  resizeCanvas();
-  initParticles();
-  animate();
+  /* ---------- forced horizontal matrix ---------- */
 
-  window.addEventListener("resize", () => {
-    resizeCanvas();
-    initParticles();
+  document.querySelectorAll(".matrix-track").forEach((track) => {
+    let dragging = false;
+    let startX = 0;
+    let startScroll = 0;
+
+    track.addEventListener("pointerdown", (event) => {
+      if (event.pointerType === "touch") {
+        return; // native touch scrolling stays intact
+      }
+      dragging = true;
+      startX = event.clientX;
+      startScroll = track.scrollLeft;
+      track.classList.add("is-dragging");
+      track.setPointerCapture(event.pointerId);
+    });
+
+    track.addEventListener("pointermove", (event) => {
+      if (!dragging) {
+        return;
+      }
+      track.scrollLeft = startScroll - (event.clientX - startX);
+    });
+
+    const endDrag = (event) => {
+      if (!dragging) {
+        return;
+      }
+      dragging = false;
+      track.classList.remove("is-dragging");
+      if (track.hasPointerCapture(event.pointerId)) {
+        track.releasePointerCapture(event.pointerId);
+      }
+    };
+
+    track.addEventListener("pointerup", endDrag);
+    track.addEventListener("pointercancel", endDrag);
+
+    // vertical wheel advances the horizontal track while it can still move
+    track.addEventListener(
+      "wheel",
+      (event) => {
+        if (Math.abs(event.deltaY) <= Math.abs(event.deltaX)) {
+          return;
+        }
+        const max = track.scrollWidth - track.clientWidth;
+        const next = track.scrollLeft + event.deltaY;
+        if (next > 0 && next < max) {
+          event.preventDefault();
+          track.scrollLeft = next;
+        }
+      },
+      { passive: false }
+    );
   });
-}
 
-const musicBtn = document.getElementById("musicBtn");
-const bgMusic = document.getElementById("bgMusic");
+  /* ---------- "Ver caso" cursor badge ---------- */
 
-if (musicBtn && bgMusic) {
-  musicBtn.addEventListener("click", () => {
-    bgMusic.volume = 0.45;
-    bgMusic.play();
+  const badge = document.createElement("div");
+  badge.className = "cursor-badge";
+  badge.setAttribute("aria-hidden", "true");
+  badge.textContent = "Ver caso";
+  if (!reduceMotion && window.matchMedia("(hover: hover)").matches) {
+    document.body.appendChild(badge);
+
+    let badgeX = 0;
+    let badgeY = 0;
+    let targetX = 0;
+    let targetY = 0;
+    let badgeVisible = false;
+
+    const follow = () => {
+      badgeX += (targetX - badgeX) * 0.16;
+      badgeY += (targetY - badgeY) * 0.16;
+      badge.style.transform = `translate(${badgeX}px, ${badgeY}px) translate(-50%, -50%) scale(${
+        badgeVisible ? 1 : 0.4
+      })`;
+      requestAnimationFrame(follow);
+    };
+
+    document.addEventListener(
+      "pointermove",
+      (event) => {
+        targetX = event.clientX;
+        targetY = event.clientY;
+      },
+      { passive: true }
+    );
+
+    document.querySelectorAll(".case-card").forEach((card) => {
+      card.addEventListener("pointerenter", () => {
+        badgeVisible = true;
+        badge.classList.add("is-on");
+      });
+      card.addEventListener("pointerleave", () => {
+        badgeVisible = false;
+        badge.classList.remove("is-on");
+      });
+    });
+
+    requestAnimationFrame(follow);
+  }
+
+  /* ---------- magnetic links ---------- */
+
+  if (!reduceMotion && window.matchMedia("(hover: hover)").matches) {
+    document.querySelectorAll("[data-magnetic]").forEach((el) => {
+      el.addEventListener("pointermove", (event) => {
+        const rect = el.getBoundingClientRect();
+        const dx = event.clientX - (rect.left + rect.width / 2);
+        const dy = event.clientY - (rect.top + rect.height / 2);
+        el.style.transform = `translate(${dx * 0.14}px, ${dy * 0.28}px)`;
+      });
+
+      el.addEventListener("pointerleave", () => {
+        el.style.transform = "";
+      });
+    });
+  }
+
+  /* ---------- the small portrait raises field turbulence ---------- */
+
+  const portrait = document.querySelector(".hero-about");
+
+  if (portrait && window.KineticField) {
+    portrait.addEventListener("pointerenter", () => window.KineticField.setTurbulence(true));
+    portrait.addEventListener("pointerleave", () => window.KineticField.setTurbulence(false));
+  }
+
+  /* ---------- background music ---------- */
+
+  const musicBtn = document.getElementById("musicBtn");
+  const music = document.getElementById("bgMusic");
+
+  if (musicBtn && music) {
+    music.volume = 0.45;
+    const label = musicBtn.textContent;
+
+    musicBtn.addEventListener("click", () => {
+      if (music.paused) {
+        music
+          .play()
+          .then(() => {
+            musicBtn.textContent = "Pausar trilha";
+          })
+          .catch(() => {
+            musicBtn.textContent = "Trilha indisponível";
+          });
+      } else {
+        music.pause();
+        musicBtn.textContent = label;
+      }
+    });
+  }
+
+  /* ---------- code copy ---------- */
+
+  document.querySelectorAll(".copyBtn").forEach((button) => {
+    button.addEventListener("click", () => {
+      const card = button.closest(".skill-card");
+      const code = card ? card.querySelector("code") : null;
+      if (!code || !navigator.clipboard) {
+        return;
+      }
+
+      const original = button.textContent;
+      navigator.clipboard.writeText(code.textContent || "").then(() => {
+        button.textContent = "Copiado";
+        setTimeout(() => {
+          button.textContent = original;
+        }, 1400);
+      });
+    });
   });
-}
 
-document.querySelectorAll(".copyBtn").forEach((button) => {
-  button.addEventListener("click", () => {
-    const code = button.closest(".skill-card")?.querySelector("code");
-    if (!code) return;
+  /* ---------- contact terminal — composes a real mail draft ---------- */
 
-    navigator.clipboard.writeText(code.textContent || "");
-    const original = button.textContent;
-    button.textContent = "Copiado!";
-    setTimeout(() => {
-      button.textContent = original;
-    }, 1400);
-  });
-});
+  const form = document.querySelector(".contact-form");
+
+  if (form) {
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const data = new FormData(form);
+      const to = form.dataset.mailto;
+      const subject = encodeURIComponent(
+        `Contato via portfolio — ${data.get("name") || "sem nome"}`
+      );
+      const body = encodeURIComponent(
+        `${data.get("message") || ""}\n\n— ${data.get("name") || ""}\n${data.get("email") || ""}`
+      );
+      window.location.href = `mailto:${to}?subject=${subject}&body=${body}`;
+    });
+  }
+})();

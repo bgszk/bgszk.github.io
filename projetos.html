@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Projetos — Jordan</title>
+  <meta name="description" content="Arquivo de projetos: análise de binários, introspecção de runtime, modelagem de memória e automação forense.">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="lab.css">
+</head>
+<body>
+  <canvas id="bg-canvas" aria-hidden="true"></canvas>
+  <div class="field-scrim" aria-hidden="true"></div>
+
+  <div class="site-shell">
+    <header class="topbar">
+      <a class="brand" href="index.html">Jordan<span class="brand-mark">/</span></a>
+      <nav class="tabs" aria-label="Navegação principal">
+        <a href="index.html"><span>01</span>Início</a>
+        <a href="projetos.html" class="is-active" aria-current="page"><span>02</span>Projetos</a>
+        <a href="processo.html"><span>03</span>Processo</a>
+        <a href="codes.html"><span>04</span>Stack</a>
+        <a href="game.html"><span>05</span>Game</a>
+        <a href="contato.html"><span>06</span>Contato</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="page-hero">
+        <p class="eyebrow">02 — Arquivo</p>
+        <h1 class="display">Trabalho<br><em>indexado</em></h1>
+        <p class="lede">
+          Três ferramentas rodam nesta página: escolha um arquivo e leia cabeçalho,
+          seções, entropia, strings e dump sem instalar nada. Abaixo delas, as nove
+          frentes de trabalho que sustentam esse tipo de análise.
+        </p>
+      </section>
+
+      <!-- ============ FERRAMENTAS EXECUTÁVEIS ============ -->
+      <section class="section" id="lab">
+        <div class="section-head">
+          <p class="eyebrow">Ferramentas</p>
+          <h2 class="display" data-reveal>Rodando <em>aqui</em></h2>
+          <p class="lede" data-reveal>
+            JavaScript puro, sem biblioteca e sem servidor: o arquivo é lido com
+            File.arrayBuffer() na sua máquina e interpretado no navegador.
+          </p>
+        </div>
+
+        <div class="lab-tools">
+          <article class="lab-tool" id="lab-headers" data-reveal>
+            <div class="lab-head">
+              <p class="mono-label">L-01 · ELF / PE</p>
+              <h3>Leitor de cabeçalho</h3>
+              <p>
+                Lê o magic, a classe, o endianness, o entry point, a image base e a
+                tabela de seções de um executável ELF (Linux) ou PE (Windows) — e
+                calcula a entropia de cada seção. <b>Entropia perto de 8 bits/byte
+                numa seção de dados significa bloco comprimido ou cifrado.</b>
+              </p>
+            </div>
+            <div class="lab-controls">
+              <label class="lab-drop">
+                <input class="lab-input" type="file" aria-label="Escolher binário para analisar">
+                <b>Escolher binário</b>
+                <span class="lab-drop-name">ou arraste o arquivo aqui</span>
+              </label>
+              <p class="lab-hint">.elf .so .exe .dll — o arquivo não é enviado para nenhum servidor</p>
+              <p class="lab-status">aguardando arquivo</p>
+            </div>
+            <div class="lab-out" hidden></div>
+          </article>
+
+          <article class="lab-tool" id="lab-strings" data-reveal>
+            <div class="lab-head">
+              <p class="mono-label">L-02 · bytes</p>
+              <h3>Strings e dump hexadecimal</h3>
+              <p>
+                Varre o arquivo atrás de sequências ASCII imprimíveis, com tamanho
+                mínimo configurável, e mostra o dump hexadecimal endereçado dos
+                primeiros 512 bytes com o gutter de texto à direita.
+              </p>
+            </div>
+            <div class="lab-controls">
+              <label class="lab-drop">
+                <input class="lab-input" type="file" aria-label="Escolher arquivo para extrair strings">
+                <b>Escolher arquivo</b>
+                <span class="lab-drop-name">ou arraste o arquivo aqui</span>
+              </label>
+              <div class="lab-inline">
+                <label for="lab-min">tamanho mínimo</label>
+                <input id="lab-min" type="number" min="4" max="64" step="1" value="6" inputmode="numeric">
+                <span class="lab-hint">caracteres</span>
+              </div>
+              <p class="lab-status">aguardando arquivo</p>
+            </div>
+            <div class="lab-out" hidden></div>
+          </article>
+
+          <article class="lab-tool" id="lab-map" data-reveal>
+            <div class="lab-head">
+              <p class="mono-label">L-03 · entropia</p>
+              <h3>Mapa de entropia</h3>
+              <p>
+                Divide o arquivo em janelas de tamanho fixo e mede a entropia de
+                Shannon em cada uma, desenhando o resultado como faixas: zeros e
+                texto repetitivo ficam escuros, código fica no meio, e blocos
+                comprimidos ou cifrados sobem para o violeta. <b>É o mesmo sinal
+                que separa código de bloco empacotado — agora ao longo de todo o
+                arquivo.</b>
+              </p>
+            </div>
+            <div class="lab-controls">
+              <label class="lab-drop">
+                <input class="lab-input" type="file" aria-label="Escolher arquivo para medir entropia">
+                <b>Escolher arquivo</b>
+                <span class="lab-drop-name">ou arraste o arquivo aqui</span>
+              </label>
+              <p class="lab-hint">escala de 0 a 8 bits/byte — o arquivo não é enviado para nenhum servidor</p>
+              <p class="lab-status">aguardando arquivo</p>
+            </div>
+            <div class="lab-out" hidden></div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-head">
+          <p class="eyebrow">Análise</p>
+          <h2 class="display" data-reveal>Ler o <em>binário</em></h2>
+          <p class="lede" data-reveal>Ferramentas que reconstroem estrutura a partir de bytes.</p>
+        </div>
+
+        <div class="archive">
+          <article class="archive-card" data-reveal>
+            <p class="mono-label">P-01 · executável</p>
+            <h3>Leitor de cabeçalhos ELF/PE</h3>
+            <p>Magic, classe, endianness, entry point, image base e tabela de seções, com entropia por seção para separar código de bloco comprimido.</p>
+            <a class="archive-link" href="#lab-headers">Abrir ferramenta</a>
+            <ul><li>JavaScript</li><li>ELF · PE</li><li>Entropia</li></ul>
+          </article>
+
+          <article class="archive-card" data-reveal>
+            <p class="mono-label">P-02 · executável</p>
+            <h3>Strings e dump hexadecimal</h3>
+            <p>Sequências imprimíveis com tamanho mínimo ajustável e dump hexadecimal endereçado, no formato de saída do strings(1).</p>
+            <a class="archive-link" href="#lab-strings">Abrir ferramenta</a>
+            <ul><li>JavaScript</li><li>Bytes</li><li>Forensics</li></ul>
+          </article>
+
+          <article class="archive-card" data-reveal>
+            <p class="mono-label">P-03</p>
+            <h3>Reconstrutor de protocolo</h3>
+            <p>Inferência de campos e limites a partir de capturas, produzindo um parser testável em vez de um documento morto.</p>
+            <ul><li>Python</li><li>Captura</li><li>Parser</li></ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-head">
+          <p class="eyebrow">Runtime</p>
+          <h2 class="display" data-reveal>Observar a <em>execução</em></h2>
+          <p class="lede" data-reveal>Instrumentação sem tocar no código do alvo.</p>
+        </div>
+
+        <div class="archive">
+          <article class="archive-card" data-reveal>
+            <p class="mono-label">P-04</p>
+            <h3>Kit de introspecção</h3>
+            <p>Interceptação de chamadas com despacho tipado, permitindo registrar assinaturas e argumentos sem recompilar o alvo.</p>
+            <ul><li>C++</li><li>Hooking</li><li>RAII</li></ul>
+          </article>
+
+          <article class="archive-card" data-reveal>
+            <p class="mono-label">P-05</p>
+            <h3>Rastreador de alocações</h3>
+            <p>Acompanha cada pedido de memória até a liberação, expondo vazamentos e reuso indevido em tempo real.</p>
+            <ul><li>C</li><li>Interposição</li><li>Métricas</li></ul>
+          </article>
+
+          <article class="archive-card" data-reveal>
+            <p class="mono-label">P-06</p>
+            <h3>Mapeador de regiões</h3>
+            <p>Estrutura de intervalos com busca logarítmica que responde onde um endereço vive e quais permissões ele carrega.</p>
+            <ul><li>Rust</li><li>FFI</li><li>Unsafe isolado</li></ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-head">
+          <p class="eyebrow">Operação</p>
+          <h2 class="display" data-reveal>Repetir sem <em>erro</em></h2>
+          <p class="lede" data-reveal>Automação determinística, com rastro auditável.</p>
+        </div>
+
+        <div class="archive">
+          <article class="archive-card" data-reveal>
+            <p class="mono-label">P-07</p>
+            <h3>Suíte forense de linha de comando</h3>
+            <p>Coletores idempotentes que varrem artefatos, normalizam a saída e geram relatórios versionáveis.</p>
+            <ul><li>Shell</li><li>POSIX</li><li>Relatórios</li></ul>
+          </article>
+
+          <article class="archive-card" data-reveal>
+            <p class="mono-label">P-08</p>
+            <h3>Verificador de invariantes</h3>
+            <p>Checagens executadas a cada build para garantir que limites, tamanhos e alinhamentos continuem verdadeiros.</p>
+            <ul><li>C++</li><li>Build</li><li>Invariantes</li></ul>
+          </article>
+
+          <article class="archive-card" data-reveal>
+            <p class="mono-label">P-09</p>
+            <h3>Bancada de testes de memória</h3>
+            <p>Ambiente reprodutível para exercitar casos de corrupção de memória com controle total de alocação.</p>
+            <ul><li>Rust</li><li>Sanitizers</li><li>Reprodutibilidade</li></ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-head">
+          <p class="eyebrow">Competências</p>
+          <h2 class="display" data-reveal>Onde eu <em>entrego</em></h2>
+          <p class="lede" data-reveal>Três frentes onde a profundidade técnica vira resultado.</p>
+        </div>
+
+        <div class="pillars">
+          <div class="pillar" data-reveal>
+            <span class="mono-label">01</span>
+            <h3>Engenharia reversa</h3>
+            <p>Reconstruir lógica, formatos e protocolos a partir do comportamento observado e de binários sem documentação.</p>
+          </div>
+          <div class="pillar" data-reveal>
+            <span class="mono-label">02</span>
+            <h3>Segurança de memória</h3>
+            <p>Encontrar e provar classes de falha que dependem de layout, limites e tempo de vida de alocações.</p>
+          </div>
+          <div class="pillar" data-reveal>
+            <span class="mono-label">03</span>
+            <h3>Sistemas performáticos</h3>
+            <p>Escrever componentes nativos onde latência, alocação e previsibilidade não são negociáveis.</p>
+          </div>
+        </div>
+      </section>
+
+      <footer class="site-foot">
+        <span>Jordan — MMXXVI</span>
+        <span class="foot-quote">And you don&apos;t seem to understand</span>
+        <a href="https://github.com/bgszk" target="_blank" rel="noopener noreferrer">GitHub</a>
+      </footer>
+    </main>
+  </div>
+
+  <script src="background.js"></script>
+  <script src="script.js"></script>
+  <script src="lab.js"></script>
+</body>
+</html>

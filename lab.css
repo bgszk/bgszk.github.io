@@ -1,0 +1,342 @@
+/* ============================================================
+   LAB — ferramentas de análise de binário (projetos.html).
+   Usa os tokens de style.css; só existe nesta página.
+   ============================================================ */
+
+.lab-tools {
+  display: grid;
+  gap: clamp(20px, 3vw, 34px);
+}
+
+.lab-tool {
+  display: grid;
+  gap: 22px;
+  padding: clamp(22px, 2.8vw, 38px);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: linear-gradient(165deg, var(--obsidian-2), var(--obsidian));
+}
+
+.lab-head h3 {
+  margin: 8px 0 10px;
+  font-family: var(--serif);
+  font-size: clamp(1.6rem, 2.8vw, 2.3rem);
+  font-weight: 400;
+  line-height: 1.1;
+}
+
+.lab-head p {
+  max-width: 74ch;
+  color: var(--slate-2);
+  font-size: 0.96rem;
+}
+
+.lab-head b {
+  color: var(--alabaster);
+  font-weight: 500;
+}
+
+/* ---------- seletor de arquivo ---------- */
+
+.lab-drop {
+  position: relative;
+  display: grid;
+  place-items: center;
+  gap: 4px;
+  padding: 26px 18px;
+  border: 1px dashed var(--line-strong);
+  border-radius: 4px;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.3s var(--ease), background 0.3s var(--ease);
+}
+
+.lab-drop:hover,
+.lab-drop.is-over {
+  border-color: var(--accent);
+  background: var(--accent-dim);
+}
+
+.lab-drop:focus-within {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.lab-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  border: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.lab-drop b {
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.lab-drop-name {
+  font-family: var(--mono);
+  font-size: 0.74rem;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+  overflow-wrap: anywhere;
+}
+
+.lab-hint,
+.lab-status {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--slate);
+}
+
+.lab-hint {
+  margin-top: 10px;
+}
+
+.lab-status {
+  margin-top: 10px;
+  text-transform: none;
+  letter-spacing: 0.06em;
+  color: var(--accent);
+}
+
+.lab-controls {
+  display: grid;
+  gap: 12px;
+}
+
+.lab-inline {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.lab-inline input[type="number"] {
+  width: 84px;
+  padding: 8px 10px;
+  border: 1px solid var(--line-strong);
+  border-radius: 2px;
+  background: transparent;
+  color: var(--alabaster);
+  font-family: var(--mono);
+  font-size: 0.84rem;
+}
+
+.lab-inline input[type="number"]:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.lab-inline label {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--slate);
+}
+
+/* ---------- saída ---------- */
+
+.lab-out {
+  display: grid;
+  gap: 22px;
+  padding-top: 22px;
+  border-top: 1px solid var(--line);
+}
+
+.lab-out[hidden] {
+  display: none;
+}
+
+.lab-file {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--slate);
+  overflow-wrap: anywhere;
+}
+
+.lab-label {
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.lab-sub {
+  display: grid;
+  gap: 12px;
+}
+
+.lab-rows {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr));
+  gap: 14px 26px;
+}
+
+.lab-row {
+  display: grid;
+  gap: 3px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--line);
+}
+
+.lab-key {
+  font-family: var(--mono);
+  font-size: 0.64rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--slate);
+}
+
+.lab-val {
+  font-size: 1rem;
+  color: var(--alabaster);
+  overflow-wrap: anywhere;
+}
+
+.lab-scroll {
+  overflow-x: auto;
+}
+
+.lab-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--mono);
+  font-size: 0.78rem;
+}
+
+.lab-table th,
+.lab-table td {
+  padding: 9px 16px 9px 0;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+  white-space: nowrap;
+}
+
+.lab-table th {
+  font-size: 0.62rem;
+  font-weight: 400;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--slate);
+}
+
+.lab-table .lab-name {
+  color: var(--accent);
+}
+
+.lab-ent-num {
+  font-weight: 400;
+  color: var(--alabaster);
+}
+
+.lab-ent {
+  display: inline-block;
+  width: 72px;
+  height: 4px;
+  margin-left: 10px;
+  border-radius: 2px;
+  background: rgba(242, 242, 242, 0.1);
+  vertical-align: middle;
+}
+
+.lab-ent i {
+  display: block;
+  height: 100%;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-deep));
+}
+
+.lab-pre {
+  max-height: 340px;
+  overflow: auto;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  background: rgba(6, 6, 8, 0.92);
+  color: #d9d9d9;
+  font-family: var(--mono);
+  font-size: 0.74rem;
+  line-height: 1.6;
+  white-space: pre;
+  scrollbar-width: thin;
+}
+
+.lab-list {
+  display: grid;
+  gap: 2px;
+  max-height: 320px;
+  overflow: auto;
+  list-style: none;
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  scrollbar-width: thin;
+}
+
+.lab-list li {
+  padding: 6px 0;
+  border-bottom: 1px solid var(--line);
+  color: var(--slate-2);
+  overflow-wrap: anywhere;
+}
+
+/* atalho do arquivo de projetos para a ferramenta */
+
+.archive-link {
+  align-self: flex-start;
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--accent);
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.3s var(--ease);
+}
+
+.archive-link:hover {
+  border-bottom-color: var(--accent);
+}
+
+/* ---------- mapa de entropia ---------- */
+
+.lab-map {
+  display: block;
+  width: 100%;
+  height: 84px;
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  /* uma faixa por janela: sem suavizar, para o limite entre elas ficar legível */
+  image-rendering: pixelated;
+}
+
+.lab-axis {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 14px;
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--slate);
+}
+
+@media (max-width: 720px) {
+  .lab-table th:nth-child(3),
+  .lab-table td:nth-child(3) {
+    display: none;
+  }
+
+  .lab-map {
+    height: 64px;
+  }
+}
