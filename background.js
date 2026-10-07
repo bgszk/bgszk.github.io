@@ -117,7 +117,7 @@
   const CONTOUR_BANDS = 13;
   const FIELD_SCALE = 2.35;
 
-  const field = new Float32Array((COLS + 1) * 160);
+  let field = new Float32Array((COLS + 1) * 64);
   let rows = 0;
   let colCount = COLS;
 
@@ -148,6 +148,13 @@
     canvas.style.height = `${viewH}px`;
 
     rows = Math.max(64, Math.round((COLS * viewH) / viewW));
+
+    // the grid is exactly as tall as the viewport's aspect ratio demands, so the
+    // buffer has to be reallocated here. A fixed-size field silently dropped every
+    // row past its end on tall/narrow viewports; those reads came back undefined
+    // (NaN) and the bottom half of the surface rendered black.
+    field = new Float32Array((colCount + 1) * (rows + 1));
+
     buffer.width = colCount;
     buffer.height = rows + 1;
 

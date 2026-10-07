@@ -68,6 +68,13 @@ displacement mutates them. An earlier revision hoisted `ny` to the row loop as a
 killed the animation frame and left a frozen field. Keep both declarations inside
 the grid loop.
 
+The `field` buffer is allocated **inside `resize()`**, sized from `rows`, which
+follows the viewport's aspect ratio. It used to be a fixed `(COLS + 1) * 160`
+array: on a phone (~373×665 needs 300 rows) every row past the 160th was written
+out of bounds, read back as `undefined`, and the lower half of the surface
+rendered black while the top half looked fine. Re-allocate it whenever `rows`
+changes — never pin it to a constant.
+
 ### The lab tools are real (and stay that way)
 
 `lab.js` parses the file the visitor picks **inside the browser**: ELF and PE
@@ -91,6 +98,10 @@ that the numbers come from the real bytes. All file-derived text is written with
   `letter-spacing` identical to `.hero-name`, or the outline drifts off the letters.
 - `script.js` looks up `.timeline` and injects `.timeline-progress`; the CSS
   expects `.timeline::before` to draw the rail.
+- `.site-shell` is a flex column and `main` is the child allowed to grow, so
+  `.terminal` still reaches the bottom of the viewport on a short page. Dropping
+  `main { flex: 1 0 auto }` makes the footer on `contato.html` float above a band
+  of empty background.
 - `script.js` calls `window.KineticField.setTurbulence()` on portrait hover — the
   guard already allows the global to be absent, but renaming the API breaks the effect.
 - The contact form is currently **removed from both pages** (the owner refused

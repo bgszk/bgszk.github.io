@@ -115,6 +115,20 @@ a {
   min-height: 100svh;
 }
 
+/* a short page (contato, with no channel list and no form) still has to end at
+   the bottom of the viewport. A flex column never stretches its children on its
+   own, so the contact section kept its content height and the footer floated
+   above a band of empty background. */
+.site-shell > main {
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.site-shell > main > .terminal {
+  flex: 1 0 auto;
+}
+
 /* ---------- top bar ---------- */
 
 .topbar {
