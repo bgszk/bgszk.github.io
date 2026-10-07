@@ -175,9 +175,9 @@
     });
   }
 
-  /* ---------- portrait raises field turbulence ---------- */
+  /* ---------- the small portrait raises field turbulence ---------- */
 
-  const portrait = document.querySelector(".hero-portrait");
+  const portrait = document.querySelector(".hero-about");
 
   if (portrait && window.KineticField) {
     portrait.addEventListener("pointerenter", () => window.KineticField.setTurbulence(true));

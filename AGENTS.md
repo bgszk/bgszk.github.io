@@ -57,18 +57,25 @@ tiled grain pass. The pointer magnetically displaces the sample coordinates, so 
 surface bends around the cursor. If you ever replace this with floating dots, you
 have reintroduced exactly what the design brief rejected.
 
-`prefers-reduced-motion` is honoured: the field renders one static frame, the
-marquee stops, and reveals resolve immediately.
+`prefers-reduced-motion` is honoured: the field renders one static frame, the hero
+name's entrance keyframes are dropped, and reveals resolve immediately.
+
+`sampleField()` declares `nx` and `ny` **per sample**, because the magnetic
+displacement mutates them. An earlier revision hoisted `ny` to the row loop as a
+`const`, so the first pointer move threw "Assignment to constant variable", which
+killed the animation frame and left a frozen field. Keep both declarations inside
+the grid loop.
 
 ### Cross-file contracts (easy to break)
 
-- The hero name is two identical `.hero-marquee` layers: a **solid, readable band in
-  front** of the portrait, and a faint outlined echo behind it. The front band is
-  deliberately *not* clipped — an earlier revision clipped it to a slice, which made
-  the word unreadable, so do not reintroduce a `clip-path` there. Legibility now
-  depends on the `.hero-stage::after` scrim sitting between the photograph (z-index 2)
-  and the letters (z-index 3); keep that order. Both layers must share the same
-  animation duration or they desynchronise.
+- The hero name is one monumental line: `.hero-name` (solid, z-index 2) with an
+  outlined `.hero-name-echo` behind it (z-index 1), inside `.hero-stage`, over the
+  violet bloom drawn by `.hero-stage::before` (z-index 0). Two earlier revisions
+  failed and must not come back: a moving marquee band across the stage (the owner
+  could not read the name) and a `clip-path` slice over the letters. Only the
+  one-shot `name-rise`/`name-fade` keyframes animate it, and
+  `prefers-reduced-motion` switches them off. Keep the echo's `font-size` and
+  `letter-spacing` identical to `.hero-name`, or the outline drifts off the letters.
 - `script.js` looks up `.timeline` and injects `.timeline-progress`; the CSS
   expects `.timeline::before` to draw the rail.
 - `script.js` calls `window.KineticField.setTurbulence()` on portrait hover — the
@@ -83,12 +90,13 @@ marquee stops, and reveals resolve immediately.
   **fills that carry white text** (buttons, cursor badge, selection), where it reaches
   ≈9:1. Don't swap them: the dark purple fails as text on obsidian, and the light one
   fails as a fill under white text.
-- `assets/retrato.jpg` — the real portrait, now tracked in the repo. The `onerror`
-  fallback to `assets/retrato-placeholder.svg` is only a safety net for a missing
-  file. Treatment: `grayscale(1)`, a radial mask that fades the edges into the page,
-  and a dark-violet grade (`.hero-portrait::before` with `mix-blend-mode: color`) so
-  the photo joins the palette instead of fighting it. Swapping the file needs no
-  other change.
+- `assets/retrato.jpg` — the real portrait, tracked in the repo. It appears **only**
+  as the small circular `.hero-about-avatar` beside the hero intro line: the owner
+  asked for a small icon elsewhere, not a hero centrepiece, and refused any colour
+  grade on the photo. Treatment is therefore neutral — `grayscale(1)`, 58px, thin
+  border, no violet overlay, no radial mask, no blend mode. The `onerror` fallback to
+  `assets/retrato-placeholder.svg` is only a safety net for a missing file. Swapping
+  the file needs no other change.
 - Contact channels in `index.html` / `contato.html`: `contato@example.com`,
   `https://wa.me/`, `https://www.linkedin.com/` (GitHub already points at the real
   profile). Replace the `mailto:` href **and** the form's `data-mailto`.
@@ -105,6 +113,7 @@ curl -s -o /dev/null -w '%{http_code}\n' http://localhost:3000/.git/config # 403
 ```
 
 Then check the browser: the field should show moving contour topography (not
-dots), and the hero marquee should be legible in front of the lower part of the
-portrait. Keyboard: `Tab` must show a 2px cobalt outline on every link, tab and
+dots) and must keep animating while the pointer moves over the page, and the hero
+name has to be fully legible at every width with the small avatar beside the
+intro line. Keyboard: `Tab` must show a 2px violet outline on every link, tab and
 form field.

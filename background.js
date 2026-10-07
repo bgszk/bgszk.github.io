@@ -168,9 +168,9 @@
     const influenceSq = influence * influence;
 
     for (let gy = 0; gy <= rows; gy += 1) {
-      const ny = gy * step * (viewH / viewW);
       for (let gx = 0; gx <= colCount; gx += 1) {
         let nx = gx * step;
+        let ny = gy * step * (viewH / viewW);
 
         // magnetic displacement: the surface bends away from the pointer
         if (pointer.force > 0.001) {
